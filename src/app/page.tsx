@@ -143,7 +143,9 @@ export default function HomePage() {
                 {assignmentsAwaitingFiles} <span className="text-lg font-normal text-text-muted">/ {totalAssignments}</span>
               </div>
               <p className="text-xs text-text-muted">
-                EW-01 marked awaiting source file
+                {assignmentsAwaitingFiles === 0
+                  ? 'All 15 deliverables ingested and verified'
+                  : `${assignmentsAwaitingFiles} deliverable awaiting source file`}
               </p>
             </div>
           </div>

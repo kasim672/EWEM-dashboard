@@ -283,5 +283,35 @@
     "sizeMatch": true,
     "contentType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     "contentDisposition": "inline; filename=\"UP_State_EWaste_Management_Tracker.pptx\""
+  },
+  {
+    "id": "EW-09_7783d0f1",
+    "assignmentId": "EW-09",
+    "filename": "KASIM_EWEM_ASS3_CHANGES.pdf",
+    "previewType": "pdf",
+    "statusCode": 200,
+    "expectedSize": 341451,
+    "downloadedSize": 341451,
+    "expectedHash": "7783d0f1742598d1f7b90272507c9ac7b08abada9d9875d3f097c3a1196642c9",
+    "downloadedHash": "7783d0f1742598d1f7b90272507c9ac7b08abada9d9875d3f097c3a1196642c9",
+    "hashMatch": true,
+    "sizeMatch": true,
+    "contentType": "application/pdf",
+    "contentDisposition": "inline; filename=\"KASIM_EWEM_ASS3_CHANGES.pdf\""
+  },
+  {
+    "id": "EW-01_2256e2b2",
+    "assignmentId": "EW-01",
+    "filename": "Toxic_Chemicals.pdf",
+    "previewType": "pdf",
+    "statusCode": 200,
+    "expectedSize": 21981,
+    "downloadedSize": 21981,
+    "expectedHash": "2256e2b2b1b4c637827cd1f875cc54e054ff3c9c9de626f2314e22cc03a35af0",
+    "downloadedHash": "2256e2b2b1b4c637827cd1f875cc54e054ff3c9c9de626f2314e22cc03a35af0",
+    "hashMatch": true,
+    "sizeMatch": true,
+    "contentType": "application/pdf",
+    "contentDisposition": "inline; filename=\"Toxic_Chemicals.pdf\""
   }
 ]

@@ -23,7 +23,7 @@ const FOLDER_TO_ASSIGNMENT_MAP = {
   'E waste India Vs World Data Task_Class Activity': 'EW-06',
   'Carbon Footprint Task_Excel activity Task': 'EW-07',
   'TE CMPN C PPT_ State tracker submission Folder': 'EW-08',
-  // 'E Waste Recovery Process_Modification for Design Patent': 'EW-09' (Discrepancy: folder not present in ewem)
+  'E Waste Recovery Process_Modification for Design Patent': 'EW-09',
   'Indian Companies Following E waste Rules_Comparative Study': 'EW-10',
   'Novel Idea_E waste_Pitch Deck Submit Folder_CMPN C': 'EW-11',
   'Campaign For E Waste in Campus_Class Activity': 'EW-12',

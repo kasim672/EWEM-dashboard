@@ -385,7 +385,7 @@ export default function AssignmentLibraryPage() {
                           ))}
                         </>
                       ) : (
-                        /* Calm, dignified tactile badge for EW-01 and EW-09 */
+                        /* Calm, dignified tactile badge for assignments awaiting files */
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono tracking-wide bg-surface-raised border border-border/70 text-text-muted">
                           <span className="w-1.5 h-1.5 rounded-full bg-text-muted/40" />
                           Awaiting File Ingestion

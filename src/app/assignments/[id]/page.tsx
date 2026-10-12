@@ -298,7 +298,7 @@ export default function AssignmentDetailPage() {
           </main>
         </div>
       ) : (
-        /* Dignified, Clean Empty State For Assignments Awaiting Ingestion (EW-01, EW-09) */
+        /* Dignified, Clean Empty State For Assignments Awaiting Ingestion */
         <div className="border border-border bg-surface rounded-xl p-8 sm:p-14 text-center space-y-4">
           <div className="w-12 h-12 rounded-full border border-border bg-surface-raised flex items-center justify-center mx-auto text-text-muted">
             <AlertCircle className="w-6 h-6 text-emerald-accent" />
