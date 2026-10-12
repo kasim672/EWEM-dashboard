@@ -14,8 +14,9 @@ describe('Authoritative 14-Assignment Seed Integrity', () => {
 
   it('observes green badges on exactly 13 assignments (EW-02 to EW-14, false for EW-01)', () => {
     const ew01 = rawSeed.assignments.find((a: any) => a.id === 'EW-01');
-    expect(ew01.portalBadgeObserved).toBe(false);
-    expect(ew01.portalBadgeText).toBeNull();
+    expect(ew01).toBeDefined();
+    expect(ew01!.portalBadgeObserved).toBe(false);
+    expect(ew01!.portalBadgeText).toBeNull();
 
     const others = rawSeed.assignments.filter((a: any) => a.id !== 'EW-01');
     expect(others).toHaveLength(13);
