@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Assignment, StudentProfile, AnalyticsMetric, ReclaimBackupData, FileRecord } from '@/types/domain';
-import { INITIAL_ASSIGNMENTS, INITIAL_PROFILE, INITIAL_ANALYTICS } from './seedData';
+import { INITIAL_ASSIGNMENTS, INITIAL_PROFILE, INITIAL_ANALYTICS, INITIAL_FILES } from './seedData';
 
 interface StorageContextType {
   assignments: Assignment[];
@@ -24,11 +24,11 @@ interface StorageContextType {
 }
 
 const STORAGE_KEYS = {
-  ASSIGNMENTS: 'reclaim_assignments_v1',
-  PROFILE: 'reclaim_profile_v1',
-  ANALYTICS: 'reclaim_analytics_v1',
-  FILES: 'reclaim_files_v1',
-  THEME: 'reclaim_theme_v1',
+  ASSIGNMENTS: 'reclaim_assignments_v3',
+  PROFILE: 'reclaim_profile_v3',
+  ANALYTICS: 'reclaim_analytics_v3',
+  FILES: 'reclaim_files_v3',
+  THEME: 'reclaim_theme_v3',
 };
 
 const StorageContext = createContext<StorageContextType | undefined>(undefined);
@@ -37,7 +37,7 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
   const [assignments, setAssignments] = useState<Assignment[]>(INITIAL_ASSIGNMENTS);
   const [profile, setProfile] = useState<StudentProfile>(INITIAL_PROFILE);
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>(INITIAL_ANALYTICS);
-  const [files, setFiles] = useState<FileRecord[]>([]);
+  const [files, setFiles] = useState<FileRecord[]>(INITIAL_FILES);
   const [theme, setThemeState] = useState<'dark' | 'light'>('dark');
   const [isLoaded, setIsLoaded] = useState(true);
 

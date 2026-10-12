@@ -1,4 +1,4 @@
-import { Assignment, StudentProfile, AnalyticsMetric } from '@/types/domain';
+import { Assignment, StudentProfile, AnalyticsMetric, FileRecord } from '@/types/domain';
 import rawSeed from '../../../data/assignments.seed.json';
 
 interface SeedItem {
@@ -21,6 +21,32 @@ interface SeedItem {
   notes?: string;
 }
 
+import courseworkManifest from '@/data/courseworkManifest.json';
+
+const MANIFEST_FILES_MAP: Record<string, FileRecord[]> = {};
+export const INITIAL_FILES: FileRecord[] = courseworkManifest.files.map((f: any) => {
+  const record: FileRecord = {
+    id: f.id,
+    name: f.filename,
+    size: f.size,
+    mimeType: f.mimeType,
+    uploadedAt: f.uploadedAt,
+    assignmentId: f.assignmentId,
+    previewType: f.previewType as FileRecord['previewType'],
+    publicUrl: f.publicUrl,
+    pdfPreviewUrl: f.pdfPreviewUrl,
+    slideImages: f.slideImages,
+    sha256: f.sha256,
+    verifiedSafe: true,
+    published: f.published,
+  };
+  if (!MANIFEST_FILES_MAP[f.assignmentId]) {
+    MANIFEST_FILES_MAP[f.assignmentId] = [];
+  }
+  MANIFEST_FILES_MAP[f.assignmentId].push(record);
+  return record;
+});
+
 export const INITIAL_ASSIGNMENTS: Assignment[] = (rawSeed.assignments as any[]).map((item: any) => ({
   id: item.id,
   portalTitle: item.portalTitle,
@@ -36,7 +62,7 @@ export const INITIAL_ASSIGNMENTS: Assignment[] = (rawSeed.assignments as any[]).
   grade: item.grade,
   published: item.published,
   tasks: item.tasks || [],
-  files: (item.files as any) || [],
+  files: MANIFEST_FILES_MAP[item.id] || [],
   sources: item.sources || [],
   notes: item.notes || '',
   requirements: '',

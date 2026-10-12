@@ -45,9 +45,14 @@ export interface FileRecord {
   mimeType: string;
   uploadedAt: string;
   assignmentId: string;
-  previewType: 'image' | 'pdf' | 'text' | 'csv' | 'binary';
+  previewType: 'image' | 'pdf' | 'presentation' | 'document' | 'spreadsheet' | 'html' | 'text' | 'csv' | 'binary' | 'download_only';
   contentUrl?: string; // base64 or blob URL
+  publicUrl?: string; // /coursework/files/...
+  pdfPreviewUrl?: string | null; // For PPTX/DOCX converted to PDF
+  slideImages?: string[]; // Generated slide images for PPTX
+  sha256?: string;
   verifiedSafe: boolean;
+  published?: boolean;
 }
 
 export interface SourceReference {

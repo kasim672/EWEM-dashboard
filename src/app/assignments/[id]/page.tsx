@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowLeft,
@@ -15,19 +15,24 @@ import {
   Trash2,
   Plus,
   AlertCircle,
+  Download,
+  Eye,
+  FileArchive,
+  Layers,
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
-import { ActualSubmissionStatus, WorkStatus, QualityStatus } from '@/types/domain';
+import { UniversalFileViewer } from '@/components/viewer/UniversalFileViewer';
+import { ActualSubmissionStatus, WorkStatus, QualityStatus, FileRecord } from '@/types/domain';
 
 export default function AssignmentWorkbenchPage() {
   const params = useParams();
-  const router = useRouter();
   const { assignments, updateAssignment, isLoaded } = useStorage();
 
   const id = params?.id as string;
   const assignment = assignments.find((a) => a.id === id);
 
+  const [activeFile, setActiveFile] = useState<FileRecord | null>(null);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [saveToast, setSaveToast] = useState(false);
 
@@ -78,6 +83,8 @@ export default function AssignmentWorkbenchPage() {
     handleUpdate({ tasks: updatedTasks });
   };
 
+  const selectedViewerFile = activeFile || (assignment.files.length > 0 ? assignment.files[0] : null);
+
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Top Navigation & Feedback */}
@@ -107,9 +114,22 @@ export default function AssignmentWorkbenchPage() {
             <StatusBadge type="category" value={assignment.category} />
             <StatusBadge type="portal" value={assignment.portalBadgeObserved} />
           </div>
-          <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Portal Activity Date: {assignment.portalActivityDate}</span>
+          <div className="flex items-center gap-3 text-xs font-mono text-text-muted">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-cyan-accent" />
+              <span>Portal Date: {assignment.portalActivityDate}</span>
+            </div>
+            {assignment.files.length > 0 && (
+              <a
+                href={`/api/download/${assignment.id}`}
+                download
+                className="inline-flex items-center gap-1 text-emerald-accent hover:underline font-semibold"
+                title="Download all deliverables for this assignment as a ZIP archive"
+              >
+                <FileArchive className="w-3.5 h-3.5" />
+                <span>Download All (ZIP)</span>
+              </a>
+            )}
           </div>
         </div>
 
@@ -123,18 +143,70 @@ export default function AssignmentWorkbenchPage() {
         </div>
       </div>
 
-      {/* Main Grid: Left Workbench Controls, Right Settings */}
+      {/* Actual Deliverables Document Viewer Area */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-bold text-text flex items-center gap-2">
+            <Layers className="w-4 h-4 text-emerald-accent" />
+            Coursework Artifacts & Interactive Preview ({assignment.files.length})
+          </h2>
+          {assignment.files.length > 0 && (
+            <span className="text-xs font-mono text-text-muted">
+              Select an item below to preview
+            </span>
+          )}
+        </div>
+
+        {/* File Tabs Selector if multiple files */}
+        {assignment.files.length > 1 && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            {assignment.files.map((file) => {
+              const isSelected = selectedViewerFile?.id === file.id;
+              return (
+                <button
+                  key={file.id}
+                  onClick={() => setActiveFile(file)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono border transition-colors shrink-0 flex items-center gap-2 ${
+                    isSelected
+                      ? 'bg-surface-raised border-emerald-accent text-emerald-accent font-semibold'
+                      : 'bg-surface border-border text-text-muted hover:text-text'
+                  }`}
+                >
+                  <Eye className="w-3 h-3" />
+                  <span className="truncate max-w-[200px]">{file.name}</span>
+                  <span className="text-[10px] text-text-muted">({(file.size / 1024).toFixed(0)} KB)</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Universal File Viewer Mount */}
+        {selectedViewerFile ? (
+          <UniversalFileViewer file={selectedViewerFile} />
+        ) : (
+          <Card className="p-10 text-center space-y-3 border-dashed">
+            <div className="w-10 h-10 rounded-full bg-surface-raised flex items-center justify-center mx-auto text-text-muted">
+              <Upload className="w-5 h-5 text-amber-accent" />
+            </div>
+            <h4 className="text-sm font-semibold text-text">No Coursework Files In Source Directory</h4>
+            <p className="text-xs text-text-muted max-w-md mx-auto">
+              This assignment ({assignment.id}) currently has 0 files indexed in the local source directory. You can upload verified materials below or in the Evidence Vault.
+            </p>
+          </Card>
+        )}
+      </div>
+
+      {/* Main Grid: Left Controls, Right Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Content, Tasks & Requirements */}
         <div className="lg:col-span-2 space-y-6">
           {/* Dual-Truth Status Engine Card */}
           <Card className="p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold text-text flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-emerald-accent" />
-                Dual-Truth Verification Controls
-              </h2>
-            </div>
+            <h2 className="text-base font-bold text-text flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-accent" />
+              Dual-Truth Verification Controls
+            </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
               <div className="space-y-1.5">
@@ -245,11 +317,10 @@ export default function AssignmentWorkbenchPage() {
               )}
             </div>
 
-            {/* Add Task Input */}
             <div className="flex gap-2 pt-2">
               <input
                 type="text"
-                placeholder="Add checklist item (e.g. Verify source citations)..."
+                placeholder="Add checklist item..."
                 value={newTaskTitle}
                 onChange={(e) => setNewTaskTitle(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && addTask()}
@@ -278,16 +349,14 @@ export default function AssignmentWorkbenchPage() {
           </Card>
         </div>
 
-        {/* Right Col: Showcase Publishing & Evidence Linkage */}
+        {/* Right Col: Showcase Publishing & Deliverable Actions */}
         <div className="space-y-6">
           {/* Faculty Showcase Publishing Toggle */}
           <Card className="p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm text-text flex items-center gap-2">
-                <Globe className="w-4 h-4 text-emerald-accent" />
-                Faculty Showcase Status
-              </h3>
-            </div>
+            <h3 className="font-bold text-sm text-text flex items-center gap-2">
+              <Globe className="w-4 h-4 text-emerald-accent" />
+              Faculty Showcase Publishing
+            </h3>
             <div className="p-3 rounded-lg bg-surface-raised border border-border space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-text">
@@ -297,50 +366,12 @@ export default function AssignmentWorkbenchPage() {
                   type="checkbox"
                   checked={assignment.published}
                   onChange={(e) => handleUpdate({ published: e.target.checked })}
-                  className="rounded border-border text-emerald-accent focus:ring-emerald-accent w-4 h-4"
+                  className="rounded border-border text-emerald-accent focus:ring-emerald-accent w-4 h-4 cursor-pointer"
                 />
               </div>
               <p className="text-[11px] text-text-muted leading-relaxed">
-                When published, this verified coursework item becomes visible in the faculty-facing showcase and presentation mode.
+                When enabled, this assignment and its associated original deliverables become available in the read-only Faculty Showcase.
               </p>
-            </div>
-          </Card>
-
-          {/* Evidence Vault Linkage */}
-          <Card className="p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm text-text flex items-center gap-2">
-                <Upload className="w-4 h-4 text-cyan-accent" />
-                Linked Evidence Files
-              </h3>
-              <span className="text-xs font-mono text-text-muted">
-                {assignment.files.length} attached
-              </span>
-            </div>
-
-            <div className="space-y-2">
-              {assignment.files.map((file) => (
-                <div
-                  key={file.id}
-                  className="p-2.5 rounded-lg bg-surface-raised border border-border text-xs flex items-center justify-between"
-                >
-                  <span className="font-mono truncate max-w-[150px]">{file.name}</span>
-                  <span className="text-[11px] font-mono text-text-muted">
-                    {(file.size / 1024).toFixed(1)} KB
-                  </span>
-                </div>
-              ))}
-
-              {assignment.files.length === 0 && (
-                <div className="p-4 rounded-lg border border-dashed border-border text-center space-y-1">
-                  <p className="text-xs text-text-muted">No evidence files linked yet.</p>
-                  <Link href="/library">
-                    <span className="text-xs text-emerald-accent hover:underline font-medium">
-                      Upload in Evidence Vault &rarr;
-                    </span>
-                  </Link>
-                </div>
-              )}
             </div>
           </Card>
 
@@ -348,10 +379,10 @@ export default function AssignmentWorkbenchPage() {
           <div className="p-4 rounded-xl border border-border bg-surface text-xs space-y-2 text-text-muted">
             <div className="flex items-center gap-2 font-semibold text-text">
               <AlertCircle className="w-4 h-4 text-amber-accent" />
-              <span>Academic Integrity Notice</span>
+              <span>Deliverable Integrity Guardrail</span>
             </div>
             <p className="leading-relaxed text-[11px]">
-              This workbench preserves independent originality. All calculations, findings, and files must be authored directly by the student researcher.
+              Files shown are original student deliverables indexed with cryptographic SHA-256 validation. Downloads reflect exact original files without modification.
             </p>
           </div>
         </div>

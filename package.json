@@ -21,19 +21,24 @@
   "type": "commonjs",
   "private": "true",
   "dependencies": {
+    "archiver": "^8.0.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "jszip": "^3.10.2",
     "lucide-react": "^1.55.0",
+    "mammoth": "^1.13.0",
     "next": "^15.5.27",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "recharts": "^3.10.1",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
+    "@types/archiver": "^8.0.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
