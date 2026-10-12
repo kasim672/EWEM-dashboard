@@ -1,7 +1,7 @@
 {
   "version": 1,
   "scannedAt": "2026-10-12T20:21:15.969Z",
-  "sourceDirectory": "/home/anonymous/EWEM-dashboard/RECLAIM/ewem",
+  "sourceDirectory": "ewem",
   "totalFiles": 19,
   "assignmentsRepresented": [
     "EW-02",
