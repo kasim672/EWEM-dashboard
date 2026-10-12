@@ -63,8 +63,11 @@ export async function GET(
     );
   }
 
-  // Resolve secure file path in coursework_vault
-  const filePath = path.join(process.cwd(), 'coursework_vault', 'files', fileRecord.safeFilename);
+  // Resolve file path: check coursework_vault first, then public/coursework fallback
+  let filePath = path.join(process.cwd(), 'coursework_vault', 'files', fileRecord.safeFilename);
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(process.cwd(), 'public', 'coursework', 'files', fileRecord.safeFilename);
+  }
 
   if (!fs.existsSync(filePath)) {
     return NextResponse.json(

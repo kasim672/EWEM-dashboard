@@ -1,72 +1,85 @@
-# RECLAIM — E-Waste Intelligence & Management Studio
+# RECLAIM — Academic Coursework Portfolio (EW/EM)
 
-> **RECLAIM MAGNUM** is an original, research-grade web application built to manage 14 Electronic Waste & Environmental Management (EW/EM) coursework assignments with uncompromised integrity, dual-truth status verification, and faculty presentation capability.
-
----
-
-## Key Differentiators & Highlights
-
-1. **Dual-Truth Status Architecture**:
-   - Explicit separation between observed portal screenshots (13 green "Turned in" badges) and independently verified student submissions (0 verified initially).
-   - Zero fabricated grades, pseudo-metrics, or artificial progress numbers.
-2. **Authoritative 14-Assignment Seed**:
-   - Ingests the exact 14 coursework assignments spanning July to October 2026 from `data/assignments.seed.json`.
-   - Exact category breakdown: 4 Data Analytics, 3 Technical Recovery, 4 Research & Sustainability, 2 Innovation & Awareness, 1 Assessment/Administrative.
-3. **Comprehensive 9-Route Experience**:
-   - `/` — **Command Center**: Real-time KPI summaries, immediate action queue, category distribution.
-   - `/assignments` — **Assignment Library**: Search, category filters, dual-truth status filters, and table/grid view toggle.
-   - `/assignments/[id]` — **Assignment Workbench**: Deep coursework workbench with checklist tasks, notes, file linkages, and showcase toggle.
-   - `/analytics` — **Research & Analytics Lab**: Modular environmental research lab with honest &ldquo;Awaiting Source Dataset&rdquo; states and provenance declarations.
-   - `/timeline` — **Course Chronology**: Full July–October 2026 chronology with recorded activity dates and separate manual deadlines.
-   - `/library` — **Secure Evidence Vault**: Assignment-linked upload interface with client-side sandbox validation and MIME detection.
-   - `/showcase` — **Faculty Showcase**: Curated, read-only portfolio strictly displaying approved, published coursework items.
-   - `/presentation` — **Faculty Presentation Mode**: Full-screen, projector-scale presenter view with keyboard navigation (`←`/`→`/`Esc`).
-   - `/settings` — **Settings & Data Portability**: Theme switcher (Dark Graphite / Light Botanical), profile metadata, and schema-validated JSON backup export/import.
-4. **Local-First Privacy & Data Portability**:
-   - Operates with client-side local storage without requiring external cloud databases or paid infrastructure.
-   - Complete JSON backup export and import round-trip with schema validation.
+> **RECLAIM: E-Waste & Environmental Management** is a minimal, premium, viewer-only academic portfolio built for faculty, classmate, and visitor review. Deployed with Next.js App Router and optimized for Vercel.
 
 ---
 
-## Quickstart & Launch Guide
+## 1. Project Overview
 
-### 1. Requirements
-- Node.js `v18+` (Tested on `v24.21.0`)
-- npm `v10+` (Tested on `11.19.0`)
+RECLAIM curates **14 official coursework assignments** for the Electronic Waste and Environmental Management curriculum. The application is strictly **read-only**, designed to showcase research deliverables with genuine interactive document previews and original file downloads without any management overhead or administrative bloat.
 
-### 2. Installation
+### Main Navigation (Exactly 3 Sections)
+1. **Home (`/`)**: Academic hero introduction, verified curriculum metrics, and featured coursework cards.
+2. **Assignments (`/assignments`)**: Gallery of all 14 assignments with real-time search, category filtering, availability filtering, and format tags.
+   - **Assignment Detail (`/assignments/[id]`)**: Full-screen interactive viewer supporting real previews for PDF, PowerPoint (PPTX slides), Word (DOCX), Excel (multi-sheet XLSX), HTML projects (sandboxed), and diagrams, plus original downloads and assignment ZIP archives.
+3. **Timeline (`/timeline`)**: Sequential course activity chronology from July to October 2026.
+
+---
+
+## 2. Technical Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript (Strict mode enabled)
+- **Styling:** Tailwind CSS with dark graphite, emerald, and electric lime design system
+- **Components:** Accessible Radix & Tailwind UI primitives
+- **Icons:** Lucide React
+- **Document Previews:**
+  - **PDFs:** Native embedded viewer with zooming, page navigation, and download links
+  - **PowerPoint PPTX:** Slide renderer with thumbnail navigation and slide count matching
+  - **Excel XLSX:** Interactive multi-sheet table viewer parsing real sheets, columns, and rows via SheetJS
+  - **HTML:** Isolated sandbox (`<iframe sandbox="allow-scripts">`) with strict CSP
+  - **Images:** High-resolution zoom and full dimension preview
+- **Archives:** Streaming ZIP generation via JSZip
+- **Testing:** Playwright E2E and Vitest unit testing suites
+
+---
+
+## 3. Local Development
+
 ```bash
+# Install dependencies
 npm install
-```
 
-### 3. Verification Commands
-```bash
-# Strict TypeScript Typecheck (0 errors)
-npm run typecheck
-
-# Unit & Seed Integrity Tests (5/5 passed)
-npm run test
-
-# Production Build (11 static/dynamic pages)
-npm run build
-```
-
-### 4. Run the Studio
-```bash
-# Start local development server
+# Run development server
 npm run dev
 
-# Or run optimized production server
-npm run build && npm run start
+# Run TypeScript typecheck
+npm run typecheck
+
+# Run unit and integration tests
+npm test
+
+# Run Playwright browser E2E tests
+npm run test:e2e
+
+# Create production build
+npm run build
+
+# Start production server locally
+npm start
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## Project Documentation
-- [Capability Inventory & Census](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/CAPABILITIES.md)
-- [Agent Execution Ledger](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/AGENT_LEDGER.md)
-- [Architecture Decisions Record (ADR)](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/DECISIONS.md)
-- [Comprehensive Test & Quality Report](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/TEST_REPORT.md)
-- [Privacy, Threat Model & Limitations](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/PRIVACY_AND_LIMITATIONS.md)
-- [Implementation Plan](file:///home/anonymous/EWEM-dashboard/RECLAIM/docs/IMPLEMENTATION_PLAN.md)
+## 4. Vercel Deployment Instructions
+
+RECLAIM is configured for direct zero-config deployment on Vercel:
+
+1. **Deploying via Vercel CLI:**
+   ```bash
+   npm i -g vercel
+   vercel
+   ```
+2. **Deploying via GitHub / Git Repository:**
+   - Push this repository to GitHub or GitLab.
+   - Import the repository in the [Vercel Dashboard](https://vercel.com/new).
+   - Framework Preset: **Next.js**.
+   - Root Directory: `./` (or repository root).
+   - Build Command: `npm run build` (default).
+   - Output Directory: `.next` (default).
+   - Node.js Version: `20.x` or `22.x`.
+   - Click **Deploy**.
+
+### Production Asset Architecture for Vercel
+- All 19 approved coursework deliverables and pre-rendered presentation slides are packaged into `public/coursework/files/` and `public/coursework/previews/`.
+- Download endpoints (`/api/coursework/file/[fileId]`, `/api/download/[id]`, etc.) check both server directories and `public/coursework/` as fallbacks, ensuring 100% operational fidelity in Vercel's serverless runtime.

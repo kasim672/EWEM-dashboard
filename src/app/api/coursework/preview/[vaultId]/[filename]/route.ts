@@ -12,7 +12,10 @@ export async function GET(
   const safeVaultId = path.basename(vaultId);
   const safeFilename = path.basename(filename);
 
-  const previewPath = path.join(process.cwd(), 'coursework_vault', 'previews', safeVaultId, safeFilename);
+  let previewPath = path.join(process.cwd(), 'coursework_vault', 'previews', safeVaultId, safeFilename);
+  if (!fs.existsSync(previewPath)) {
+    previewPath = path.join(process.cwd(), 'public', 'coursework', 'previews', safeVaultId, safeFilename);
+  }
 
   if (!fs.existsSync(previewPath)) {
     return NextResponse.json({ error: 'Preview asset not found' }, { status: 404 });

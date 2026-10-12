@@ -17,7 +17,10 @@ export async function GET(
     return NextResponse.json({ error: 'Spreadsheet file not found' }, { status: 404 });
   }
 
-  const filePath = path.join(process.cwd(), 'coursework_vault', 'files', fileRecord.safeFilename);
+  let filePath = path.join(process.cwd(), 'coursework_vault', 'files', fileRecord.safeFilename);
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(process.cwd(), 'public', 'coursework', 'files', fileRecord.safeFilename);
+  }
 
   if (!fs.existsSync(filePath)) {
     return NextResponse.json({ error: 'Physical spreadsheet file not found' }, { status: 404 });

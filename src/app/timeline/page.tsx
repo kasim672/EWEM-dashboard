@@ -7,6 +7,8 @@ import {
   Clock,
   ArrowRight,
   AlertCircle,
+  FolderKanban,
+  FileText,
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
@@ -15,7 +17,13 @@ export default function CourseTimelinePage() {
   const { assignments, isLoaded } = useStorage();
 
   if (!isLoaded) {
-    return <div className="p-8 text-center font-mono text-sm text-text-muted">Loading timeline...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="p-8 text-center font-mono text-sm text-text-muted">
+          Loading course timeline...
+        </div>
+      </div>
+    );
   }
 
   // Sort assignments strictly by portal activity date
@@ -28,71 +36,76 @@ export default function CourseTimelinePage() {
   return (
     <div className="space-y-8 animate-fadeIn pb-12">
       {/* Header */}
-      <div className="border border-border rounded-xl bg-surface p-6 space-y-2">
-        <div className="flex items-center gap-2">
-          <CalendarDays className="w-5 h-5 text-emerald-accent" />
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text">
-            Course Chronology & Milestones
+      <div className="border border-border rounded-xl bg-surface p-6 sm:p-8 space-y-3 shadow-lg">
+        <div className="flex items-center gap-2.5">
+          <CalendarDays className="w-6 h-6 text-emerald-accent" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-text font-display">
+            Course Activity Chronology
           </h1>
         </div>
         <p className="text-sm text-text-muted max-w-3xl leading-relaxed">
-          Activity chronology across July–October 2026. Explicit distinction: recorded dates reflect portal activity observed in portal screenshots, not confirmed academic deadlines.
+          Coursework chronology spanning July to October 2026. Dates reflect recorded academic course activity milestones in sequential order.
         </p>
       </div>
 
-      {/* Distinction Callout */}
-      <div className="p-4 rounded-xl border border-amber-accent/30 bg-amber-accent/5 flex items-start gap-3 text-xs text-text">
-        <AlertCircle className="w-4 h-4 text-amber-accent shrink-0 mt-0.5" />
-        <div>
-          <strong className="font-semibold text-amber-accent">Integrity Note:</strong> Dates below represent observed portal activity stamps. Both same-day submissions on July 28, 2026 (EW-02 Map of E-Waste and EW-03 Elemental Recovery Process) are preserved independently in chronological order.
-        </div>
-      </div>
-
-      {/* Timeline Stream */}
+      {/* Coursework Timeline Stream */}
       <div className="relative pl-6 sm:pl-8 border-l-2 border-border/80 space-y-8 ml-2 sm:ml-4">
-        {timelineSorted.map((assignment, index) => (
-          <div key={assignment.id} className="relative group">
-            {/* Timeline Marker Dot */}
-            <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-emerald-accent group-hover:scale-125 transition-transform flex items-center justify-center">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-            </div>
+        {timelineSorted.map((assignment) => {
+          const hasFiles = assignment.files && assignment.files.length > 0;
 
-            {/* Card Content */}
-            <Card className="p-5 hover:border-emerald-accent/40 transition-colors">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-xs font-bold text-emerald-accent">
-                      {assignment.id}
-                    </span>
-                    <span className="text-xs font-mono text-cyan-accent flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {assignment.portalActivityDate}
-                    </span>
-                    <StatusBadge type="category" value={assignment.category} />
-                    <StatusBadge type="portal" value={assignment.portalBadgeObserved} />
-                  </div>
-                  <h3 className="text-base font-bold text-text">
-                    {assignment.displayTitle}
-                  </h3>
-                  <p className="text-xs font-mono text-text-muted">
-                    Raw Portal String: {assignment.portalTitle}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 shrink-0 self-start sm:self-auto">
-                  <StatusBadge type="work" value={assignment.workStatus} />
-                  <Link href={`/assignments/${assignment.id}`}>
-                    <Button size="sm" variant="outline" className="gap-1 text-xs">
-                      <span>Workbench</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Button>
-                  </Link>
-                </div>
+          return (
+            <div key={assignment.id} className="relative group">
+              {/* Timeline Marker Dot */}
+              <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-emerald-accent group-hover:scale-125 transition-transform flex items-center justify-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
               </div>
-            </Card>
-          </div>
-        ))}
+
+              {/* Timeline Card */}
+              <Card className="p-5 sm:p-6 hover:border-emerald-accent/40 transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-mono text-xs font-bold text-emerald-accent px-2 py-0.5 rounded bg-emerald-accent/10 border border-emerald-accent/20">
+                        {assignment.id}
+                      </span>
+                      <span className="text-xs font-mono text-cyan-accent flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                        {assignment.portalActivityDate}
+                      </span>
+                      <StatusBadge type="category" value={assignment.category} />
+                      {hasFiles ? (
+                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border text-emerald-accent">
+                          {assignment.files.length} file{assignment.files.length !== 1 ? 's' : ''}
+                        </span>
+                      ) : (
+                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-accent/10 text-amber-accent border border-amber-accent/30">
+                          Awaiting files
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold text-text">
+                      {assignment.displayTitle}
+                    </h3>
+
+                    <p className="text-xs font-mono text-text-muted">
+                      Portal: {assignment.portalTitle}
+                    </p>
+                  </div>
+
+                  <div className="shrink-0 self-start sm:self-auto">
+                    <Link href={`/assignments/${assignment.id}`}>
+                      <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+                        <span>View Assignment</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

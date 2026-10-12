@@ -3,282 +3,208 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-  ShieldAlert,
   ArrowRight,
-  Database,
-  Cpu,
-  BookOpen,
-  Lightbulb,
-  FileSpreadsheet,
-  CheckCircle2,
+  FolderKanban,
+  CalendarDays,
+  FileText,
+  Download,
+  Layers,
+  FileCheck2,
   Clock,
-  ExternalLink,
+  Sparkles,
+  ShieldCheck,
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
 
-export default function CommandCenterPage() {
+export default function HomePage() {
   const { assignments, isLoaded } = useStorage();
 
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex items-center gap-3 text-text-muted font-mono text-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-accent animate-ping" />
-          Loading RECLAIM intelligence register...
+          Loading RECLAIM academic portfolio...
         </div>
       </div>
     );
   }
 
   // Exact metrics
-  const totalRecords = assignments.length; // Exactly 14
-  const observedBadges = assignments.filter((a) => a.portalBadgeObserved).length; // Exactly 13
-  const verifiedComplete = assignments.filter((a) => a.workStatus === 'verified_complete').length; // 0 initially
-  const pendingReview = assignments.filter((a) => a.workStatus === 'not_reviewed').length; // 14 initially
-  const publishedCount = assignments.filter((a) => a.published).length; // 0 initially
+  const totalAssignments = assignments.length; // Exactly 14
+  const assignmentsWithFiles = assignments.filter((a) => a.files && a.files.length > 0).length; // Exactly 12
+  const assignmentsAwaitingFiles = totalAssignments - assignmentsWithFiles; // Exactly 2 (EW-01 & EW-09)
 
-  // Category breakdown
-  const categoryCounts: Record<string, number> = {
-    'Data Analytics & Tracking': 0,
-    'Technical & Recovery Processes': 0,
-    'Research, Policy & Sustainability': 0,
-    'Innovation & Awareness': 0,
-    'Assessment / Administrative': 0,
-  };
-
-  assignments.forEach((a) => {
-    if (categoryCounts[a.category] !== undefined) {
-      categoryCounts[a.category]++;
-    }
-  });
-
-  // Action Queue: first 3 assignments needing review
-  const actionQueue = assignments.filter((a) => a.workStatus === 'not_reviewed').slice(0, 3);
+  // Featured Coursework Deliverables (representing core technical, analytics, and policy work)
+  const featuredAssignments = assignments.filter((a) =>
+    ['EW-05', 'EW-10', 'EW-14'].includes(a.id)
+  );
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      {/* Editorial Hero Header */}
-      <div className="relative rounded-2xl border border-border bg-gradient-to-br from-surface via-surface to-surface-raised p-6 sm:p-8 lg:p-10 overflow-hidden">
-        <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-accent/30 bg-emerald-accent/10 text-emerald-accent text-xs font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-            Dual-Truth Verification Engine Active
+    <div className="space-y-12 animate-fadeIn pb-8">
+      {/* Editorial Academic Hero Section */}
+      <div className="relative rounded-2xl border border-border bg-gradient-to-br from-surface via-surface to-surface-raised p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl">
+        {/* Subtle accent glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-accent/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-3xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-accent/30 bg-emerald-accent/10 text-emerald-accent text-xs font-mono">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Academic Coursework Portfolio &bull; EW/EM</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-text font-display">
-            E-Waste Intelligence & Management Studio
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-text font-display leading-[1.1]">
+            RECLAIM <br />
+            <span className="text-emerald-accent">
+              E-Waste & Environmental Management
+            </span>
           </h1>
-          <p className="text-sm sm:text-base text-text-muted leading-relaxed">
-            From discarded circuitry to systematic evidence. Managing 14 coursework assignments across data analytics, pyrometallurgical recovery, regulatory compliance, and campus awareness with uncompromised integrity.
+
+          <p className="text-base sm:text-lg text-text-muted leading-relaxed font-sans max-w-2xl">
+            A comprehensive, viewer-only academic repository curating 14 coursework deliverables. Explore research reports, elemental recovery workflows, compliance analytics, interactive spreadsheets, slide decks, and environmental posters with genuine interactive document previews and original file downloads.
           </p>
-          <div className="flex flex-wrap items-center gap-3 pt-2">
+
+          {/* Prominent Action Buttons */}
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link href="/assignments">
-              <Button className="gap-2">
-                <span>Open Assignment Library</span>
+              <Button size="lg" className="gap-2.5 px-6 font-semibold shadow-lg shadow-emerald-accent/10">
+                <FolderKanban className="w-5 h-5" />
+                <span>View Assignments ({totalAssignments})</span>
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Link href="/showcase">
-              <Button variant="outline" className="gap-2">
-                <span>Faculty Showcase ({publishedCount})</span>
-                <ExternalLink className="w-4 h-4" />
+
+            <Link href="/timeline">
+              <Button size="lg" variant="outline" className="gap-2.5 px-6 font-semibold">
+                <CalendarDays className="w-5 h-5 text-cyan-accent" />
+                <span>Explore Timeline</span>
               </Button>
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Truth & Verification KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border-border">
+      {/* Truthful Academic Portfolio Metrics */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <Card className="border-border p-6 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Coursework Register
+              Coursework Curriculum
             </span>
-            <Database className="w-4 h-4 text-emerald-accent" />
+            <FileText className="w-5 h-5 text-emerald-accent" />
           </div>
-          <div className="mt-3">
-            <div className="text-3xl font-bold font-mono text-text">{totalRecords}</div>
-            <div className="text-xs text-text-muted mt-1">Authoritative assignments</div>
+          <div>
+            <div className="text-4xl font-extrabold font-mono text-text">
+              {totalAssignments}
+            </div>
+            <div className="text-xs text-text-muted mt-1 font-sans">
+              Total coursework assignments registered
+            </div>
           </div>
         </Card>
 
-        <Card className="border-border">
+        <Card className="border-border p-6 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Portal Badges
+              Downloadable Deliverables
             </span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-accent" />
+            <FileCheck2 className="w-5 h-5 text-emerald-accent" />
           </div>
-          <div className="mt-3">
-            <div className="text-3xl font-bold font-mono text-emerald-accent">
-              {observedBadges} <span className="text-sm font-normal text-text-muted">/ 14</span>
+          <div>
+            <div className="text-4xl font-extrabold font-mono text-emerald-accent">
+              {assignmentsWithFiles}{' '}
+              <span className="text-sm font-normal text-text-muted">/ 14</span>
             </div>
-            <div className="text-xs text-text-muted mt-1">Observed &quot;Turned in&quot; badges</div>
+            <div className="text-xs text-text-muted mt-1 font-sans">
+              Assignments with genuine verified files (19 deliverables)
+            </div>
           </div>
         </Card>
 
-        <Card className="border-border">
+        <Card className="border-border p-6 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Verified Complete
+              Pending Coursework
             </span>
-            <ShieldAlert className="w-4 h-4 text-amber-accent" />
+            <Clock className="w-5 h-5 text-amber-accent" />
           </div>
-          <div className="mt-3">
-            <div className="text-3xl font-bold font-mono text-amber-accent">
-              {verifiedComplete} <span className="text-sm font-normal text-text-muted">/ 14</span>
+          <div>
+            <div className="text-4xl font-extrabold font-mono text-amber-accent">
+              {assignmentsAwaitingFiles}{' '}
+              <span className="text-sm font-normal text-text-muted">/ 14</span>
             </div>
-            <div className="text-xs text-text-muted mt-1">Awaiting independent verification</div>
-          </div>
-        </Card>
-
-        <Card className="border-border">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase tracking-wider text-text-muted">
-              Review Queue
-            </span>
-            <Clock className="w-4 h-4 text-cyan-accent" />
-          </div>
-          <div className="mt-3">
-            <div className="text-3xl font-bold font-mono text-cyan-accent">
-              {pendingReview}
+            <div className="text-xs text-text-muted mt-1 font-sans">
+              Awaiting source files (EW-01 & EW-09 marked pending)
             </div>
-            <div className="text-xs text-text-muted mt-1">Assignments awaiting audit</div>
           </div>
         </Card>
       </div>
 
-      {/* Action Queue & Categories Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Action Queue */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-accent" />
-              Immediate Review Queue
+      {/* Featured Assignments Section */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-text flex items-center gap-2">
+              <Layers className="w-5 h-5 text-emerald-accent" />
+              <span>Featured Academic Coursework</span>
             </h2>
-            <Link href="/assignments" className="text-xs text-emerald-accent hover:underline font-mono">
-              View all 14 &rarr;
-            </Link>
+            <p className="text-xs sm:text-sm text-text-muted mt-1">
+              Representative assignments featuring interactive spreadsheets, legal reviews, and pitch case studies.
+            </p>
           </div>
+          <Link
+            href="/assignments"
+            className="text-xs sm:text-sm font-mono text-emerald-accent hover:underline flex items-center gap-1"
+          >
+            <span>Browse All 14</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
 
-          <div className="space-y-3">
-            {actionQueue.map((assignment) => (
-              <Card
-                key={assignment.id}
-                className="hover:border-emerald-accent/50 transition-colors p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div className="space-y-1.5 max-w-xl">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-xs font-bold text-emerald-accent">
-                      {assignment.id}
-                    </span>
-                    <span className="text-xs font-mono text-text-muted">
-                      Portal Date: {assignment.portalActivityDate}
-                    </span>
-                    <StatusBadge type="portal" value={assignment.portalBadgeObserved} />
-                  </div>
-                  <h3 className="font-semibold text-text text-base">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredAssignments.map((assignment) => (
+            <Card
+              key={assignment.id}
+              className="p-6 hover:border-emerald-accent/50 transition-all flex flex-col justify-between space-y-5"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded-md bg-emerald-accent/10 border border-emerald-accent/20">
+                    {assignment.id}
+                  </span>
+                  <span className="text-xs font-mono text-text-muted">
+                    {assignment.portalActivityDate}
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h3 className="font-bold text-base text-text leading-snug">
                     {assignment.displayTitle}
                   </h3>
                   <p className="text-xs text-text-muted font-mono line-clamp-1">
-                    Raw: {assignment.portalTitle}
+                    {assignment.portalTitle}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
-                  <Link href={`/assignments/${assignment.id}`}>
-                    <Button size="sm" variant="outline" className="gap-1.5">
-                      <span>Workbench</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Button>
-                  </Link>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  <StatusBadge type="category" value={assignment.category} />
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border text-text-muted">
+                    {assignment.files.length} file{assignment.files.length !== 1 ? 's' : ''}
+                  </span>
                 </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Right Col: Category Distribution (4/3/4/2/1) */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-bold text-text flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-lime-accent" />
-            Curriculum Categories
-          </h2>
-
-          <Card className="space-y-4 p-5">
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-2 text-text font-medium">
-                  <FileSpreadsheet className="w-4 h-4 text-cyan-accent" />
-                  Data Analytics & Tracking
-                </span>
-                <span className="font-mono font-bold text-cyan-accent">
-                  {categoryCounts['Data Analytics & Tracking']} records
-                </span>
-              </div>
-              <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-                <div className="bg-cyan-accent h-full w-[28.5%]" />
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-2">
-                <span className="flex items-center gap-2 text-text font-medium">
-                  <BookOpen className="w-4 h-4 text-emerald-accent" />
-                  Research & Sustainability
-                </span>
-                <span className="font-mono font-bold text-emerald-accent">
-                  {categoryCounts['Research, Policy & Sustainability']} records
-                </span>
+              <div className="border-t border-border pt-4 flex items-center justify-between">
+                <Link href={`/assignments/${assignment.id}`} className="w-full">
+                  <Button size="sm" variant="outline" className="w-full gap-2 justify-center">
+                    <span>View Assignment</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
               </div>
-              <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-                <div className="bg-emerald-accent h-full w-[28.5%]" />
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-2">
-                <span className="flex items-center gap-2 text-text font-medium">
-                  <Cpu className="w-4 h-4 text-lime-accent" />
-                  Technical & Recovery
-                </span>
-                <span className="font-mono font-bold text-lime-accent">
-                  {categoryCounts['Technical & Recovery Processes']} records
-                </span>
-              </div>
-              <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-                <div className="bg-lime-accent h-full w-[21.4%]" />
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-2">
-                <span className="flex items-center gap-2 text-text font-medium">
-                  <Lightbulb className="w-4 h-4 text-amber-accent" />
-                  Innovation & Awareness
-                </span>
-                <span className="font-mono font-bold text-amber-accent">
-                  {categoryCounts['Innovation & Awareness']} records
-                </span>
-              </div>
-              <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-                <div className="bg-amber-accent h-full w-[14.2%]" />
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-2">
-                <span className="flex items-center gap-2 text-text font-medium">
-                  <Database className="w-4 h-4 text-text-muted" />
-                  Assessment & Admin
-                </span>
-                <span className="font-mono font-bold text-text-muted">
-                  {categoryCounts['Assessment / Administrative']} record
-                </span>
-              </div>
-              <div className="w-full bg-surface-raised rounded-full h-1.5 overflow-hidden">
-                <div className="bg-text-muted h-full w-[7.1%]" />
-              </div>
-            </div>
-
-            <div className="border-t border-border pt-4 text-[11px] text-text-muted font-mono leading-relaxed">
-              Category Distribution: 4 Data / 3 Technical / 4 Research / 2 Innovation / 1 Administrative. Verified match against authoritative seed.
-            </div>
-          </Card>
+            </Card>
+          ))}
         </div>
       </div>
     </div>

@@ -9,16 +9,11 @@ const VIEWPORTS = [
 ];
 
 const ROUTES = [
-  { path: '/', name: 'command-center' },
-  { path: '/assignments', name: 'assignments-library' },
-  { path: '/assignments/EW-01', name: 'assignment-workbench-awaiting' },
-  { path: '/assignments/EW-05', name: 'assignment-workbench-deliverables' },
-  { path: '/analytics', name: 'analytics-lab' },
+  { path: '/', name: 'home-portfolio' },
+  { path: '/assignments', name: 'assignments-gallery' },
+  { path: '/assignments/EW-01', name: 'assignment-detail-awaiting' },
+  { path: '/assignments/EW-05', name: 'assignment-detail-deliverables' },
   { path: '/timeline', name: 'timeline' },
-  { path: '/library', name: 'evidence-vault' },
-  { path: '/showcase', name: 'showcase' },
-  { path: '/presentation', name: 'presentation' },
-  { path: '/settings', name: 'settings' },
 ];
 
 (async () => {
@@ -28,7 +23,7 @@ const ROUTES = [
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  console.log('Capturing real screenshots across viewports...');
+  console.log('Capturing real screenshots across viewports for final 3-section portfolio...');
 
   for (const vp of VIEWPORTS) {
     const context = await browser.newContext({
@@ -58,13 +53,12 @@ const ROUTES = [
   });
   const lightPage = await lightContext.newPage();
   await lightPage.goto('http://localhost:3000/', { waitUntil: 'networkidle' });
-  // Set light theme via document element class
   await lightPage.evaluate(() => {
     document.documentElement.classList.add('light');
     document.documentElement.classList.remove('dark');
   });
   await lightPage.waitForTimeout(300);
-  await lightPage.screenshot({ path: path.join(outputDir, 'command-center-desktop-light.png'), fullPage: true });
+  await lightPage.screenshot({ path: path.join(outputDir, 'home-portfolio-desktop-light.png'), fullPage: true });
   console.log(`✓ [desktop-light] / saved`);
 
   await lightPage.goto('http://localhost:3000/assignments', { waitUntil: 'networkidle' });
@@ -73,10 +67,10 @@ const ROUTES = [
     document.documentElement.classList.remove('dark');
   });
   await lightPage.waitForTimeout(300);
-  await lightPage.screenshot({ path: path.join(outputDir, 'assignments-library-desktop-light.png'), fullPage: true });
+  await lightPage.screenshot({ path: path.join(outputDir, 'assignments-gallery-desktop-light.png'), fullPage: true });
   console.log(`✓ [desktop-light] /assignments saved`);
 
   await lightContext.close();
   await browser.close();
-  console.log('All 29 genuine screenshot captures completed successfully.');
+  console.log('All screenshots captured successfully.');
 })();
