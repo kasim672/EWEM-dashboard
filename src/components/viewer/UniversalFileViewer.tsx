@@ -227,30 +227,9 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
           </div>
         )}
 
-        {/* 4. Excel & Spreadsheets (XLSX / CSV) */}
+        {/* 4. Excel & Spreadsheets (XLSX / CSV) - Interactive Multi-Sheet Viewer */}
         {file.previewType === 'spreadsheet' && (
-          <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-cyan-accent/10 border border-cyan-accent/20 flex items-center justify-center text-cyan-accent">
-              <FileSpreadsheet className="w-6 h-6" />
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-base font-bold text-text">{file.name}</h4>
-              <p className="text-xs text-text-muted font-mono">
-                State E-Waste Data Workbook • Size: {(file.size / 1024).toFixed(1)} KB
-              </p>
-            </div>
-            <p className="text-xs text-text-muted max-w-md leading-relaxed">
-              Contains multi-sheet state-by-state e-waste generation, authorized recyclers, and target tracking matrices.
-            </p>
-            <div className="flex gap-3">
-              <a href={targetDownloadUrl} download={file.name}>
-                <Button size="sm" className="gap-2">
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Download Original XLSX</span>
-                </Button>
-              </a>
-            </div>
-          </div>
+          <SpreadsheetInteractiveViewer file={file} targetDownloadUrl={targetDownloadUrl} />
         )}
 
         {/* 5. Sandboxed HTML Coursework Apps */}
@@ -323,3 +302,142 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
     </div>
   );
 }
+
+function SpreadsheetInteractiveViewer({
+  file,
+  targetDownloadUrl,
+}: {
+  file: FileRecord;
+  targetDownloadUrl: string;
+}) {
+  const [data, setData] = useState<{
+    sheetNames: string[];
+    sheets: Record<string, { headers: string[]; rows: any[][] }>;
+  } | null>(null);
+  const [activeSheet, setActiveSheet] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    fetch(`/api/coursework/spreadsheet/${file.id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json) => {
+        if (!isMounted) return;
+        if (json.error) {
+          setError(json.error);
+        } else {
+          setData(json);
+          if (json.sheetNames && json.sheetNames.length > 0) {
+            setActiveSheet(json.sheetNames[0]);
+          }
+        }
+      })
+      .catch((err) => {
+        if (isMounted) setError(err.message);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [file.id]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 space-y-3">
+        <div className="w-6 h-6 border-2 border-cyan-accent border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-text-muted">Parsing workbook sheets...</span>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="text-center p-8 space-y-3">
+        <FileSpreadsheet className="w-10 h-10 text-cyan-accent mx-auto" />
+        <h4 className="text-sm font-bold text-text">{file.name}</h4>
+        <p className="text-xs text-text-muted max-w-sm mx-auto">
+          Multi-sheet Excel workbook. Download original spreadsheet to view in Microsoft Excel or Google Sheets.
+        </p>
+        <a href={targetDownloadUrl} download={file.name}>
+          <Button size="sm" className="gap-2">
+            <Download className="w-3.5 h-3.5" />
+            <span>Download XLSX</span>
+          </Button>
+        </a>
+      </div>
+    );
+  }
+
+  const currentSheetData = data.sheets[activeSheet] || { headers: [], rows: [] };
+
+  return (
+    <div className="w-full h-full flex flex-col min-h-[460px] bg-surface rounded-lg overflow-hidden border border-border">
+      {/* Sheet Tabs Header */}
+      <div className="bg-surface-raised border-b border-border px-3 py-2 flex items-center justify-between gap-3 overflow-x-auto">
+        <div className="flex items-center gap-1.5 overflow-x-auto">
+          {data.sheetNames.map((sheet) => (
+            <button
+              key={sheet}
+              onClick={() => setActiveSheet(sheet)}
+              className={`px-3 py-1 rounded-md text-xs font-mono transition-colors shrink-0 ${
+                activeSheet === sheet
+                  ? 'bg-cyan-accent/20 text-cyan-accent font-semibold border border-cyan-accent/30'
+                  : 'text-text-muted hover:text-text hover:bg-surface'
+              }`}
+            >
+              {sheet}
+            </button>
+          ))}
+        </div>
+        <div className="text-[11px] font-mono text-text-muted shrink-0">
+          Showing {currentSheetData.rows.length} rows
+        </div>
+      </div>
+
+      {/* Spreadsheet Data Grid */}
+      <div className="flex-1 overflow-auto max-h-[450px]">
+        {currentSheetData.headers.length === 0 ? (
+          <div className="p-8 text-center text-xs text-text-muted font-mono">
+            Sheet is empty or has no header row.
+          </div>
+        ) : (
+          <table className="w-full text-left border-collapse text-xs font-mono">
+            <thead>
+              <tr className="bg-surface-raised border-b border-border sticky top-0 z-10 text-text">
+                <th className="p-2.5 border-r border-border text-text-muted w-10 text-center">#</th>
+                {currentSheetData.headers.map((h, idx) => (
+                  <th key={idx} className="p-2.5 border-r border-border font-semibold whitespace-nowrap">
+                    {h || `Col ${idx + 1}`}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/60">
+              {currentSheetData.rows.map((row, rowIdx) => (
+                <tr key={rowIdx} className="hover:bg-surface-raised/40 transition-colors">
+                  <td className="p-2 border-r border-border text-center text-text-muted/60 bg-surface-raised/20">
+                    {rowIdx + 1}
+                  </td>
+                  {currentSheetData.headers.map((_, colIdx) => (
+                    <td key={colIdx} className="p-2 border-r border-border/60 whitespace-nowrap text-text">
+                      {String(row[colIdx] !== undefined ? row[colIdx] : '')}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+

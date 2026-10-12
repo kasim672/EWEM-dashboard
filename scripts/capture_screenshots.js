@@ -11,7 +11,8 @@ const VIEWPORTS = [
 const ROUTES = [
   { path: '/', name: 'command-center' },
   { path: '/assignments', name: 'assignments-library' },
-  { path: '/assignments/EW-01', name: 'assignment-workbench' },
+  { path: '/assignments/EW-01', name: 'assignment-workbench-awaiting' },
+  { path: '/assignments/EW-05', name: 'assignment-workbench-deliverables' },
   { path: '/analytics', name: 'analytics-lab' },
   { path: '/timeline', name: 'timeline' },
   { path: '/library', name: 'evidence-vault' },

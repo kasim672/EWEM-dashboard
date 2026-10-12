@@ -24,7 +24,7 @@ export async function GET(
   const zip = new JSZip();
 
   for (const file of assignmentFiles) {
-    const filePath = path.join(process.cwd(), file.publicPath);
+    const filePath = path.join(process.cwd(), 'coursework_vault', 'files', file.safeFilename);
     if (fs.existsSync(filePath)) {
       const fileBuffer = fs.readFileSync(filePath);
       zip.file(file.filename, fileBuffer);
