@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #0B1110;
+  --surface: #151D1A;
+  --surface-raised: #1C2922;
+  --text: #EFF5EF;
+  --text-muted: #A4B9AD;
+  --border: #314037;
+  --emerald: #32CF89;
+  --lime: #C4F46D;
+  --cyan: #79CFDA;
+  --amber: #F2BC6E;
+  --danger: #F48F87;
+}
+
+.light {
+  --canvas: #F5F8F4;
+  --surface: #FFFFFF;
+  --surface-raised: #EDF3ED;
+  --text: #14241D;
+  --text-muted: #556B5F;
+  --border: #D8E4DA;
+  --emerald: #147A4B;
+  --lime: #527B10;
+  --cyan: #116979;
+  --amber: #8D5A12;
+  --danger: #A52D28;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--text);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  min-height: 100vh;
+}
+
+/* Accessible focus ring */
+*:focus-visible {
+  outline: 2px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
