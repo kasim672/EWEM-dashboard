@@ -38,7 +38,7 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<StudentProfile>(INITIAL_PROFILE);
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>(INITIAL_ANALYTICS);
   const [files, setFiles] = useState<FileRecord[]>(INITIAL_FILES);
-  const [theme, setThemeState] = useState<'dark' | 'light'>('dark');
+  const [theme, setThemeState] = useState<'dark' | 'light'>('light');
   const [isLoaded, setIsLoaded] = useState(true);
 
   // Initialize from LocalStorage
@@ -62,10 +62,10 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
       if (storedFiles) {
         setFiles(JSON.parse(storedFiles));
       }
-      if (storedTheme) {
-        setThemeState(storedTheme);
-        document.documentElement.classList.toggle('light', storedTheme === 'light');
-      }
+      const activeTheme = storedTheme || 'light';
+      setThemeState(activeTheme);
+      document.documentElement.classList.toggle('light', activeTheme === 'light');
+      document.documentElement.classList.toggle('dark', activeTheme === 'dark');
     } catch (e) {
       console.error('Failed to load local storage state:', e);
     } finally {
@@ -77,6 +77,7 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
     setThemeState(newTheme);
     localStorage.setItem(STORAGE_KEYS.THEME, newTheme);
     document.documentElement.classList.toggle('light', newTheme === 'light');
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
   const updateAssignment = (id: string, updates: Partial<Assignment>) => {
