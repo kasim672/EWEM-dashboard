@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -6,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Badge component with strict semantic truth styling
+// Badge component with strict semantic truth styling and physical instrument aesthetics
 export function StatusBadge({
   type,
   value,
@@ -111,7 +113,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono border whitespace-nowrap',
+        'inline-flex items-center px-2 py-0.5 rounded text-xs font-mono border whitespace-nowrap tracking-wide',
         colorClasses,
         className
       )}
@@ -121,7 +123,7 @@ export function StatusBadge({
   );
 }
 
-// Card primitive
+// Card primitive with crisp hairline borders and tactile surface
 export function Card({
   className,
   children,
@@ -130,7 +132,7 @@ export function Card({
   return (
     <div
       className={cn(
-        'bg-surface border border-border rounded-xl p-5 shadow-sm transition-all',
+        'bg-surface border border-border rounded-lg p-5 shadow-sm transition-all',
         className
       )}
       {...props}
@@ -140,7 +142,7 @@ export function Card({
   );
 }
 
-// Button primitive
+// Button primitive with tactile feedback and physical response
 export function Button({
   className,
   variant = 'default',
@@ -151,10 +153,10 @@ export function Button({
   size?: 'sm' | 'md' | 'lg';
 }) {
   const base =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-emerald-accent disabled:opacity-50 disabled:pointer-events-none';
+    'inline-flex items-center justify-center font-medium rounded transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-accent active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none';
   const variants = {
-    default: 'bg-emerald-accent text-canvas font-semibold hover:opacity-90',
-    outline: 'border border-border bg-surface text-text hover:bg-surface-raised',
+    default: 'bg-emerald-accent text-canvas font-semibold hover:bg-emerald-accent/90',
+    outline: 'border border-border bg-surface text-text hover:bg-surface-raised hover:border-border-active',
     ghost: 'text-text-muted hover:text-text hover:bg-surface-raised',
     danger: 'bg-danger-accent text-canvas hover:opacity-90',
   };

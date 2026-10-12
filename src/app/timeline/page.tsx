@@ -6,9 +6,9 @@ import {
   CalendarDays,
   Clock,
   ArrowRight,
-  AlertCircle,
-  FolderKanban,
   FileText,
+  Layers,
+  ArrowUpRight,
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
@@ -19,93 +19,129 @@ export default function CourseTimelinePage() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="p-8 text-center font-mono text-sm text-text-muted">
-          Loading course timeline...
+        <div className="p-8 text-center font-mono text-xs tracking-wider text-text-muted">
+          LOADING COURSEWORK CHRONOLOGY...
         </div>
       </div>
     );
   }
 
-  // Sort assignments strictly by portal activity date
+  // Sort assignments strictly by portal activity date and secondary ID
   const timelineSorted = [...assignments].sort((a, b) => {
     const comp = a.portalActivityDate.localeCompare(b.portalActivityDate);
     if (comp !== 0) return comp;
     return a.id.localeCompare(b.id);
   });
 
+  // Group by month
+  const monthlyGroups: { monthYear: string; items: typeof timelineSorted }[] = [];
+  timelineSorted.forEach((assignment) => {
+    const dateObj = new Date(assignment.portalActivityDate);
+    const monthYear = dateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    let group = monthlyGroups.find((g) => g.monthYear === monthYear);
+    if (!group) {
+      group = { monthYear, items: [] };
+      monthlyGroups.push(group);
+    }
+    group.items.push(assignment);
+  });
+
   return (
-    <div className="space-y-8 animate-fadeIn pb-12">
-      {/* Header */}
-      <div className="border border-border rounded-xl bg-surface p-6 sm:p-8 space-y-3 shadow-lg">
-        <div className="flex items-center gap-2.5">
-          <CalendarDays className="w-6 h-6 text-emerald-accent" />
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-text font-display">
+    <div className="space-y-12 animate-fadeIn pb-16">
+      {/* Editorial Header */}
+      <div className="border-b border-border/60 pb-8 space-y-4">
+        <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded bg-surface border border-border text-xs font-mono text-emerald-accent uppercase tracking-tech">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
+          <span>Curricular Progression &bull; July &ndash; October 2026</span>
+        </div>
+        <div className="space-y-2">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tightest text-text font-display">
             Course Activity Chronology
           </h1>
+          <p className="text-base text-text-muted max-w-2xl font-light">
+            Sequential index of 14 coursework activity records observed across the semester portal. Grouped by calendar milestone.
+          </p>
         </div>
-        <p className="text-sm text-text-muted max-w-3xl leading-relaxed">
-          Coursework chronology spanning July to October 2026. Dates reflect recorded academic course activity milestones in sequential order.
-        </p>
       </div>
 
-      {/* Coursework Timeline Stream */}
-      <div className="relative pl-6 sm:pl-8 border-l-2 border-border/80 space-y-8 ml-2 sm:ml-4">
-        {timelineSorted.map((assignment) => {
-          const hasFiles = assignment.files && assignment.files.length > 0;
+      {/* Swiss Chronological Stream by Month */}
+      <div className="space-y-12">
+        {monthlyGroups.map((group) => (
+          <div key={group.monthYear} className="space-y-6">
+            <div className="flex items-center gap-4">
+              <h2 className="text-sm font-mono font-bold uppercase tracking-widest text-emerald-accent">
+                {group.monthYear}
+              </h2>
+              <div className="h-px bg-border/80 flex-1" />
+              <span className="text-xs font-mono text-text-muted">
+                {group.items.length} {group.items.length === 1 ? 'Milestone' : 'Milestones'}
+              </span>
+            </div>
 
-          return (
-            <div key={assignment.id} className="relative group">
-              {/* Timeline Marker Dot */}
-              <div className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-surface border-2 border-emerald-accent group-hover:scale-125 transition-transform flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-              </div>
+            <div className="divide-y divide-border/60 border border-border rounded-xl bg-surface overflow-hidden">
+              {group.items.map((assignment) => {
+                const hasFiles = assignment.files && assignment.files.length > 0;
 
-              {/* Timeline Card */}
-              <Card className="p-5 sm:p-6 hover:border-emerald-accent/40 transition-colors">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono text-xs font-bold text-emerald-accent px-2 py-0.5 rounded bg-emerald-accent/10 border border-emerald-accent/20">
-                        {assignment.id}
-                      </span>
-                      <span className="text-xs font-mono text-cyan-accent flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" />
-                        {assignment.portalActivityDate}
-                      </span>
-                      <StatusBadge type="category" value={assignment.category} />
-                      {hasFiles ? (
-                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border text-emerald-accent">
-                          {assignment.files.length} file{assignment.files.length !== 1 ? 's' : ''}
+                return (
+                  <div
+                    key={assignment.id}
+                    className="p-5 sm:p-6 hover:bg-surface-raised/40 transition-colors flex flex-col md:flex-row md:items-center justify-between gap-5 group"
+                  >
+                    {/* Left details */}
+                    <div className="space-y-2 max-w-2xl">
+                      <div className="flex items-center gap-2.5 flex-wrap text-xs font-mono">
+                        <span className="font-bold text-emerald-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
+                          {assignment.id}
                         </span>
-                      ) : (
-                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-accent/10 text-amber-accent border border-amber-accent/30">
-                          Awaiting files
+                        <span className="text-text-muted flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-cyan-accent" />
+                          <span>{assignment.portalActivityDate}</span>
                         </span>
-                      )}
+                        <StatusBadge type="category" value={assignment.category} />
+                        {hasFiles ? (
+                          <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border text-emerald-accent font-semibold">
+                            {assignment.files.length} file{assignment.files.length !== 1 ? 's' : ''}
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border/70 text-text-muted">
+                            Awaiting files
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="space-y-0.5">
+                        <Link
+                          href={`/assignments/${assignment.id}`}
+                          className="text-base sm:text-lg font-bold text-text group-hover:text-emerald-accent transition-colors block"
+                        >
+                          {assignment.displayTitle}
+                        </Link>
+                        <div className="text-xs font-mono text-text-muted truncate">
+                          <span className="text-text-muted/40 uppercase mr-1">Portal:</span>
+                          {assignment.portalTitle}
+                        </div>
+                      </div>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-bold text-text">
-                      {assignment.displayTitle}
-                    </h3>
-
-                    <p className="text-xs font-mono text-text-muted">
-                      Portal: {assignment.portalTitle}
-                    </p>
+                    {/* Right Action Button */}
+                    <div className="shrink-0 self-start md:self-auto">
+                      <Link href={`/assignments/${assignment.id}`}>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-2 text-xs font-medium group-hover:border-emerald-accent/50 group-hover:text-emerald-accent"
+                        >
+                          <span>Inspect Deliverable</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-
-                  <div className="shrink-0 self-start sm:self-auto">
-                    <Link href={`/assignments/${assignment.id}`}>
-                      <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-                        <span>View Assignment</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </Card>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
