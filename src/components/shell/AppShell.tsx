@@ -52,14 +52,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link
             href="/"
             className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-accent rounded py-1 px-1 -ml-1 transition-colors"
-            aria-label="RECLAIM Academic Portfolio Home"
+            aria-label="E-Waste Academic Portfolio Home"
+            title="E-Waste | Academic Portfolio"
           >
             <span
               className="w-2 h-2 rounded-sm bg-emerald-accent transition-transform duration-150 group-hover:scale-110"
               aria-hidden="true"
             />
             <span className="font-mono text-base font-semibold tracking-wider text-text">
-              RECLAIM
+              E-Waste
             </span>
             <span className="hidden sm:inline font-mono text-[11px] text-text-muted border-l border-border pl-2.5 ml-1">
               EW/EM Studio
@@ -173,9 +174,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-text-muted">
             <div className="flex items-center gap-2.5">
               <span className="w-1.5 h-1.5 rounded-sm bg-emerald-accent" aria-hidden="true" />
-              <span className="text-text font-semibold tracking-wider">RECLAIM</span>
+              <span className="text-text font-semibold tracking-wider">E-Waste</span>
               <span className="text-border">/</span>
-              <span>E-Waste &amp; Environmental Management</span>
+              <span>Environmental Management</span>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <span>14 Authoritative Coursework Deliverables</span>

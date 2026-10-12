@@ -27,16 +27,16 @@ export default function HomePage() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex items-center gap-3 text-text-muted font-mono text-xs uppercase tracking-tech">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-          Loading RECLAIM academic register...
+          Loading E-Waste academic register...
         </div>
       </div>
     );
   }
 
   // Exact metrics
-  const totalAssignments = assignments.length; // Exactly 14
-  const assignmentsWithFiles = assignments.filter((a) => a.files && a.files.length > 0).length; // Exactly 12
-  const assignmentsAwaitingFiles = totalAssignments - assignmentsWithFiles; // Exactly 2 (EW-01 & EW-09)
+  const totalAssignments = assignments.length;
+  const assignmentsWithFiles = assignments.filter((a) => a.files && a.files.length > 0).length;
+  const assignmentsAwaitingFiles = totalAssignments - assignmentsWithFiles;
 
   // Featured Coursework Deliverables
   const featuredAssignments = assignments.filter((a) =>
@@ -56,15 +56,28 @@ export default function HomePage() {
 
           <div className="space-y-4">
             <h1 className="text-display-hero font-extrabold text-text font-display tracking-tightest">
-              RECLAIM
+              E-Waste
             </h1>
             <p className="text-xl sm:text-2xl font-light text-text-muted tracking-tight max-w-2xl font-sans">
-              E-Waste & Environmental Management Coursework
+              E-Waste &amp; Environmental Management Coursework
             </p>
           </div>
 
+          {/* Academic Dedication Banner */}
+          <div className="border border-border/80 bg-surface/80 rounded-xl p-4 sm:p-5 shadow-xs max-w-2xl flex items-start gap-3.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-accent mt-1.5 shrink-0" aria-hidden="true" />
+            <div className="space-y-1">
+              <div className="text-sm font-semibold text-text font-display tracking-tight">
+                Prepared for Prof. Aniket Kundu
+              </div>
+              <div className="text-xs font-mono text-text-muted">
+                E-Waste &amp; Environmental Management &middot; Semester 5
+              </div>
+            </div>
+          </div>
+
           <p className="text-base text-text-muted leading-relaxed font-sans max-w-2xl">
-            A viewer-only academic repository curating 14 coursework assignments across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
+            A viewer-only academic repository curating coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">

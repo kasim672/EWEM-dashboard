@@ -6,6 +6,16 @@ test.describe('RECLAIM Minimal Academic Portfolio E2E Verification', () => {
     await expect(page.locator('text=E-Waste & Environmental Management').first()).toBeVisible();
     await expect(page.locator('text=15').first()).toBeVisible();
 
+    // Verify new branding and dedication
+    await expect(page).toHaveTitle('E-Waste | Academic Portfolio');
+    await expect(page.locator('h1:has-text("E-Waste")')).toBeVisible();
+    await expect(page.locator('text=Prepared for Prof. Aniket Kundu')).toBeVisible();
+    await expect(page.locator('text=E-Waste & Environmental Management · Semester 5')).toBeVisible();
+
+    // Verify "RECLAIM" does NOT appear anywhere in the rendered page
+    const pageText = await page.textContent('body');
+    expect(pageText).not.toContain('RECLAIM');
+
     // Verify 3-item navigation bar
     const nav = page.locator('nav');
     await expect(nav.locator('text=Home')).toBeVisible();
