@@ -22,8 +22,53 @@ interface SeedItem {
 }
 
 import courseworkManifest from '@/data/courseworkManifest.json';
+import researchPaperData from '@/data/researchPaperManifest.json';
 
 const MANIFEST_FILES_MAP: Record<string, FileRecord[]> = {};
+
+// Register EW-15 research paper files into MANIFEST_FILES_MAP
+MANIFEST_FILES_MAP['EW-15'] = [
+  {
+    id: 'EW-15_PDF',
+    name: researchPaperData.documents.pdf.filename,
+    size: researchPaperData.documents.pdf.size,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-10-07T12:00:00Z',
+    assignmentId: 'EW-15',
+    previewType: 'pdf',
+    publicUrl: researchPaperData.documents.pdf.publicUrl,
+    sha256: researchPaperData.documents.pdf.sha256,
+    verifiedSafe: true,
+    published: true,
+  },
+  {
+    id: 'EW-15_DOCX',
+    name: researchPaperData.documents.docx.filename,
+    size: researchPaperData.documents.docx.size,
+    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    uploadedAt: '2026-10-07T12:00:00Z',
+    assignmentId: 'EW-15',
+    previewType: 'document',
+    publicUrl: researchPaperData.documents.docx.publicUrl,
+    sha256: researchPaperData.documents.docx.sha256,
+    verifiedSafe: true,
+    published: true,
+  },
+  {
+    id: 'EW-15_TEX',
+    name: researchPaperData.documents.tex.filename,
+    size: researchPaperData.documents.tex.size,
+    mimeType: 'text/x-tex',
+    uploadedAt: '2026-10-07T12:00:00Z',
+    assignmentId: 'EW-15',
+    previewType: 'text',
+    publicUrl: researchPaperData.documents.tex.publicUrl,
+    sha256: researchPaperData.documents.tex.sha256,
+    verifiedSafe: true,
+    published: true,
+  },
+];
+
 export const INITIAL_FILES: FileRecord[] = courseworkManifest.files.map((f: any) => {
   const record: FileRecord = {
     id: f.id,

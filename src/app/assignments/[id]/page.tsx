@@ -19,6 +19,7 @@ import {
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Button, StatusBadge, cn } from '@/components/ui/primitives';
 import { UniversalFileViewer } from '@/components/viewer/UniversalFileViewer';
+import { ResearchPaperViewer } from '@/components/viewer/ResearchPaperViewer';
 import { FileRecord } from '@/types/domain';
 
 export default function AssignmentDetailPage() {
@@ -49,7 +50,7 @@ export default function AssignmentDetailPage() {
         <h2 className="text-xl font-bold font-display text-text">Coursework Record Not Found</h2>
         <p className="text-xs font-mono text-text-muted max-w-[65ch] mx-auto">
           No authoritative assignment matches identifier: <span className="text-emerald-accent">{id}</span>.
-          Valid coursework identifiers are EW-01 through EW-14.
+          Valid coursework identifiers are EW-01 through EW-15.
         </p>
         <Link href="/assignments" className="inline-block pt-2">
           <Button variant="outline" size="sm">
@@ -115,7 +116,11 @@ export default function AssignmentDetailPage() {
 
           <div className="flex items-center gap-2 text-text-muted">
             <Calendar className="w-3.5 h-3.5 text-text-muted" />
-            <span>Course Activity: <strong className="text-text font-mono">{assignment.portalActivityDate}</strong></span>
+            {assignment.id === 'EW-15' ? (
+              <span>Submission Deadline: <strong className="text-amber-accent font-mono">October 7, 2026, 11:59 PM</strong></span>
+            ) : (
+              <span>Course Activity: <strong className="text-text font-mono">{assignment.portalActivityDate}</strong></span>
+            )}
           </div>
         </div>
 
@@ -124,14 +129,29 @@ export default function AssignmentDetailPage() {
             {assignment.displayTitle}
           </h1>
 
-          <div className="flex items-start gap-2 pt-0.5">
-            <span className="text-[11px] font-mono text-text-muted uppercase tracking-wider shrink-0 mt-0.5">
-              Original Portal Title:
-            </span>
-            <span className="text-xs font-mono text-text-muted bg-surface-raised px-2.5 py-0.5 rounded border border-border/60 break-all">
-              {assignment.portalTitle}
-            </span>
-          </div>
+          {assignment.id === 'EW-15' ? (
+            <div className="space-y-2 pt-2 border-t border-border/40">
+              <div className="text-sm sm:text-base font-semibold text-text font-display leading-snug">
+                Explanation Reliability and Failure Detection in Phishing URL Classification Under Dataset Shift
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-text-muted">
+                <span>Author: <strong className="text-text">Kasim Ishaque Ghanchi</strong></span>
+                <span>&bull;</span>
+                <span>Deadline: <strong className="text-amber-accent font-mono">October 7, 2026 — 11:59 PM</strong></span>
+                <span>&bull;</span>
+                <span>Max Points: <strong className="text-text">20</strong></span>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2 pt-0.5">
+              <span className="text-[11px] font-mono text-text-muted uppercase tracking-wider shrink-0 mt-0.5">
+                Original Portal Title:
+              </span>
+              <span className="text-xs font-mono text-text-muted bg-surface-raised px-2.5 py-0.5 rounded border border-border/60 break-all">
+                {assignment.portalTitle}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -265,12 +285,16 @@ export default function AssignmentDetailPage() {
               )}
             </div>
 
-            {/* Universal Interactive Document Preview Mount */}
-            {activeFile && (
+            {/* Universal Interactive Document Preview Mount / Research Paper Specialized Viewer */}
+            {assignment.id === 'EW-15' ? (
+              <div className="w-full">
+                <ResearchPaperViewer />
+              </div>
+            ) : activeFile ? (
               <div className="w-full">
                 <UniversalFileViewer file={activeFile} />
               </div>
-            )}
+            ) : null}
           </main>
         </div>
       ) : (

@@ -12,9 +12,12 @@ import {
   FileCheck2,
   Clock,
   ArrowUpRight,
+  BookOpen,
+  Archive,
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
+import researchPaperData from '@/data/researchPaperManifest.json';
 
 export default function HomePage() {
   const { assignments, isLoaded } = useStorage();
@@ -112,10 +115,10 @@ export default function HomePage() {
                 Downloadable Deliverables
               </div>
               <div className="text-4xl font-extrabold font-mono text-emerald-accent tabular-nums tracking-tight">
-                {assignmentsWithFiles} <span className="text-lg font-normal text-text-muted">/ 14</span>
+                {assignmentsWithFiles} <span className="text-lg font-normal text-text-muted">/ {totalAssignments}</span>
               </div>
               <p className="text-xs text-text-muted">
-                20 verified original student deliverables
+                {assignments.reduce((sum, a) => sum + (a.files ? a.files.length : 0), 0)} verified deliverables across portfolio
               </p>
             </div>
 
@@ -124,7 +127,7 @@ export default function HomePage() {
                 Pending Coursework
               </div>
               <div className="text-4xl font-extrabold font-mono text-amber-accent tabular-nums tracking-tight">
-                {assignmentsAwaitingFiles} <span className="text-lg font-normal text-text-muted">/ 14</span>
+                {assignmentsAwaitingFiles} <span className="text-lg font-normal text-text-muted">/ {totalAssignments}</span>
               </div>
               <p className="text-xs text-text-muted">
                 EW-01 marked awaiting source file
@@ -149,7 +152,7 @@ export default function HomePage() {
             href="/assignments"
             className="text-xs font-mono text-emerald-accent hover:underline flex items-center gap-1.5 shrink-0"
           >
-            <span>Browse All 14 Assignments</span>
+            <span>Browse All {totalAssignments} Assignments</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -245,6 +248,82 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Featured Research Paper Section */}
+      <div className="space-y-6 pt-4 border-t border-border/80">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <div className="text-xs font-mono uppercase tracking-tech text-emerald-accent">
+              Academic Publication Protocol
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-text font-display tracking-tight">
+              Featured Research Paper
+            </h2>
+          </div>
+          <span className="text-xs font-mono text-text-muted">
+            Independent Research Work
+          </span>
+        </div>
+
+        <div className="border border-border bg-surface p-7 sm:p-8 rounded-xl shadow-tactile hover:border-emerald-accent/50 transition-colors flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded bg-surface-raised border border-border">
+                IEEE TRANSACTIONS TEMPLATE
+              </span>
+              <span className="text-xs font-mono text-text-muted">
+                CYCRAI 2027 Research Protocol
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-text font-display leading-tight">
+                {researchPaperData.title}
+              </h3>
+              <p className="text-xs font-mono text-text-muted">
+                {researchPaperData.author.name} &bull; {researchPaperData.author.department}, {researchPaperData.author.location}
+              </p>
+            </div>
+
+            <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[85ch]">
+              High accuracy on a random test split does not establish that a phishing URL classifier will remain reliable on new domains or data collected through different pipelines. Nor does a plausible feature-attribution plot establish that its explanation is faithful to the classifier. This protocol specifies matched lexical inputs, domain-disjoint and cross-corpus evaluation, SHAP and LIME explanation audits, and selective failure warning rules.
+            </p>
+
+            <div className="flex items-center gap-2 flex-wrap pt-2">
+              <span className="text-xs font-mono text-emerald-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
+                PDF Document (362.2 KB)
+              </span>
+              <span className="text-xs font-mono text-text px-2 py-0.5 rounded bg-surface-raised border border-border">
+                Microsoft Word (.docx)
+              </span>
+              <span className="text-xs font-mono text-amber-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
+                LaTeX Source (.tex)
+              </span>
+              <span className="text-xs font-mono text-cyan-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
+                5 Research Figures
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <Link href="/assignments/EW-15">
+                <Button size="sm" variant="default" className="gap-2">
+                  <BookOpen className="w-4 h-4" />
+                  <span>Read Research Paper (EW-15)</span>
+                </Button>
+              </Link>
+            </div>
+
+            <a href="/api/research-paper/zip" download="Research_Paper.zip">
+              <Button size="sm" variant="outline" className="gap-2 text-xs">
+                <Archive className="w-3.5 h-3.5" />
+                <span>Download Complete Paper (ZIP)</span>
+              </Button>
+            </a>
           </div>
         </div>
       </div>

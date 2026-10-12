@@ -29,6 +29,7 @@ export default function AssignmentLibraryPage() {
   const categories: { label: string; value: string; count?: number }[] = useMemo(() => {
     const list: { label: string; value: string; count?: number }[] = [
       { label: 'All Records', value: 'all', count: assignments.length },
+      { label: 'Academic Research', value: 'Academic Research' },
       { label: 'Data Analytics', value: 'Data Analytics & Tracking' },
       { label: 'Technical & Recovery', value: 'Technical & Recovery Processes' },
       { label: 'Research & Policy', value: 'Research, Policy & Sustainability' },
@@ -128,7 +129,7 @@ export default function AssignmentLibraryPage() {
             </span>
             <span className="text-border text-xs">•</span>
             <span className="text-xs font-mono text-text-muted">
-              14 Official Records
+              {assignments.length} Official Records
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-text font-display">

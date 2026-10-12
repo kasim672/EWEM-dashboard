@@ -59,7 +59,7 @@ export default function CourseTimelinePage() {
             Course Activity Chronology
           </h1>
           <p className="text-base text-text-muted max-w-2xl font-light">
-            Sequential index of 14 coursework activity records observed across the semester portal. Grouped by calendar milestone.
+            Sequential index of 15 coursework activity and research milestone records. Grouped by calendar milestone.
           </p>
         </div>
       </div>
@@ -81,6 +81,7 @@ export default function CourseTimelinePage() {
             <div className="divide-y divide-border/60 border border-border rounded-xl bg-surface overflow-hidden">
               {group.items.map((assignment) => {
                 const hasFiles = assignment.files && assignment.files.length > 0;
+                const isDeadline = assignment.id === 'EW-15' && assignment.dueDate;
 
                 return (
                   <div
@@ -95,8 +96,15 @@ export default function CourseTimelinePage() {
                         </span>
                         <span className="text-text-muted flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5 text-cyan-accent" />
-                          <span>{assignment.portalActivityDate}</span>
+                          <span>
+                            {isDeadline ? 'October 7, 2026 — 11:59 PM (Deadline)' : assignment.portalActivityDate}
+                          </span>
                         </span>
+                        {isDeadline && (
+                          <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-accent/10 border border-amber-accent/30 text-amber-accent font-semibold">
+                            Submission Deadline
+                          </span>
+                        )}
                         <StatusBadge type="category" value={assignment.category} />
                         {hasFiles ? (
                           <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border text-emerald-accent font-semibold">

@@ -267,6 +267,25 @@
       "files": [],
       "sources": [],
       "notes": ""
+    },
+    {
+      "id": "EW-15",
+      "portalTitle": "IEEE Research Paper Submission",
+      "displayTitle": "IEEE Research Paper Submission",
+      "portalActivityDate": "2026-10-07",
+      "category": "Academic Research",
+      "dueDate": "2026-10-07T23:59:00",
+      "portalBadgeObserved": false,
+      "portalBadgeText": null,
+      "actualSubmissionStatus": "unverified",
+      "workStatus": "not_reviewed",
+      "qualityStatus": "not_assessed",
+      "grade": null,
+      "published": false,
+      "tasks": [],
+      "files": [],
+      "sources": [],
+      "notes": "Research Paper Title: Explanation Reliability and Failure Detection in Phishing URL Classification Under Dataset Shift. Author: Kasim Ishaque Ghanchi. Maximum Points: 20. Multiple Submissions: Allowed."
     }
   ]
 }

@@ -29,7 +29,8 @@ export type AssignmentCategory =
   | 'Technical & Recovery Processes'
   | 'Assessment / Administrative'
   | 'Data Analytics & Tracking'
-  | 'Innovation & Awareness';
+  | 'Innovation & Awareness'
+  | 'Academic Research';
 
 export interface TaskItem {
   id: string;

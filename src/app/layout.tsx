@@ -6,7 +6,12 @@ import '../styles/globals.css';
 export const metadata: Metadata = {
   title: 'RECLAIM — E-Waste Intelligence & Management Studio',
   description:
-    'Independent coursework intelligence studio for 14 EW/EM assignments with dual-truth verification and faculty showcase.',
+    'Academic coursework portfolio for 15 EW/EM assignments with interactive document inspection and verified deliverables.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
