@@ -1,5 +1,5 @@
 import { Assignment, StudentProfile, AnalyticsMetric } from '@/types/domain';
-import rawSeed from '@/data/assignments.seed.json';
+import rawSeed from '../../../data/assignments.seed.json';
 
 interface SeedItem {
   id: string;
@@ -21,7 +21,7 @@ interface SeedItem {
   notes?: string;
 }
 
-export const INITIAL_ASSIGNMENTS: Assignment[] = (rawSeed.assignments as SeedItem[]).map((item) => ({
+export const INITIAL_ASSIGNMENTS: Assignment[] = (rawSeed.assignments as any[]).map((item: any) => ({
   id: item.id,
   portalTitle: item.portalTitle,
   displayTitle: item.displayTitle,

@@ -8,15 +8,17 @@ interface StorageContextType {
   assignments: Assignment[];
   profile: StudentProfile;
   analytics: AnalyticsMetric[];
+  analyticsMetrics: AnalyticsMetric[];
   files: FileRecord[];
   theme: 'dark' | 'light';
   setTheme: (theme: 'dark' | 'light') => void;
   updateAssignment: (id: string, updates: Partial<Assignment>) => void;
   updateProfile: (profile: StudentProfile) => void;
+  updateMetric: (id: string, updates: Partial<AnalyticsMetric>) => void;
   addFile: (file: FileRecord) => void;
   deleteFile: (id: string) => void;
   exportBackup: () => string;
-  importBackup: (jsonString: string) => { success: boolean; message: string };
+  importBackup: (jsonString: string) => { success: boolean; message: string; error?: string };
   resetToSeed: () => void;
   isLoaded: boolean;
 }
@@ -37,7 +39,7 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
   const [analytics, setAnalytics] = useState<AnalyticsMetric[]>(INITIAL_ANALYTICS);
   const [files, setFiles] = useState<FileRecord[]>([]);
   const [theme, setThemeState] = useState<'dark' | 'light'>('dark');
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   // Initialize from LocalStorage
   useEffect(() => {
@@ -92,6 +94,16 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(newProfile));
   };
 
+  const updateMetric = (id: string, updates: Partial<AnalyticsMetric>) => {
+    setAnalytics((prev) => {
+      const updated = prev.map((item) =>
+        item.id === id ? { ...item, ...updates } : item
+      );
+      localStorage.setItem(STORAGE_KEYS.ANALYTICS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const addFile = (file: FileRecord) => {
     setFiles((prev) => {
       const updated = [file, ...prev];
@@ -123,16 +135,31 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
     return JSON.stringify(backup, null, 2);
   };
 
-  const importBackup = (jsonString: string): { success: boolean; message: string } => {
+  const importBackup = (jsonString: string): { success: boolean; message: string; error?: string } => {
     try {
       const data: ReclaimBackupData = JSON.parse(jsonString);
       if (!data.version || !Array.isArray(data.assignments)) {
-        return { success: false, message: 'Invalid backup file format: missing required assignment array.' };
+        return {
+          success: false,
+          message: 'Invalid backup file format: missing required assignment array.',
+          error: 'Invalid backup file format: missing required assignment array.',
+        };
       }
       if (data.assignments.length !== 14) {
         return {
           success: false,
           message: `Backup integrity check failed: expected exactly 14 assignments, found ${data.assignments.length}.`,
+          error: `Backup integrity check failed: expected exactly 14 assignments, found ${data.assignments.length}.`,
+        };
+      }
+      const expectedIds = Array.from({ length: 14 }, (_, i) => `EW-${String(i + 1).padStart(2, '0')}`);
+      const assignmentIds = new Set(data.assignments.map((a) => a.id));
+      const hasAllExpectedIds = expectedIds.every((id) => assignmentIds.has(id));
+      if (!hasAllExpectedIds) {
+        return {
+          success: false,
+          message: 'Backup integrity check failed: assignments must contain exactly IDs EW-01 through EW-14.',
+          error: 'Backup integrity check failed: assignments must contain exactly IDs EW-01 through EW-14.',
         };
       }
       setAssignments(data.assignments);
@@ -141,9 +168,17 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
         setProfile(data.profile);
         localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(data.profile));
       }
+      if (data.analyticsMetrics && Array.isArray(data.analyticsMetrics)) {
+        setAnalytics(data.analyticsMetrics);
+        localStorage.setItem(STORAGE_KEYS.ANALYTICS, JSON.stringify(data.analyticsMetrics));
+      }
       return { success: true, message: 'Backup imported successfully with all 14 assignments restored.' };
-    } catch (e) {
-      return { success: false, message: 'JSON parse error: file is corrupted or not a valid JSON document.' };
+    } catch (e: any) {
+      return {
+        success: false,
+        message: 'JSON parse error: file is corrupted or not a valid JSON document.',
+        error: e?.message || 'JSON parse error',
+      };
     }
   };
 
@@ -164,11 +199,13 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
         assignments,
         profile,
         analytics,
+        analyticsMetrics: analytics,
         files,
         theme,
         setTheme,
         updateAssignment,
         updateProfile,
+        updateMetric,
         addFile,
         deleteFile,
         exportBackup,

@@ -1,4 +1,4 @@
-# BRIEFING — 2026-10-12T19:45:00Z
+# BRIEFING — 2026-10-12T19:54:00Z
 
 ## Mission
 Build RECLAIM MAGNUM — complete, original, premium E-Waste Intelligence & Management Studio web app with 14 assignments, dual-truth tracking, 9 routes, and full verification.
@@ -25,15 +25,15 @@ Build RECLAIM MAGNUM — complete, original, premium E-Waste Intelligence & Mana
    - Escalate: report to parent (sub-orchestrators only, last resort)
 4. **Succession**: At 16 spawns, write handoff.md, spawn successor
 - **Work items**:
-  1. Survey & Architecture Assessment [in-progress]
-  2. Foundation & Contracts (Types, Seed Data, Storage, Tokens) [pending]
-  3. App Shell & Global Navigation [pending]
-  4. Core Routes Wave A (Command Center, Assignments Library, Workbench) [pending]
-  5. Core Routes Wave B (Analytics Lab, Timeline, Evidence Vault) [pending]
-  6. Core Routes Wave C (Showcase, Presentation, Settings) [pending]
-  7. Verification, Cross-Cutting Reviews & Final Integration (Tiers 1-4, Audit) [pending]
-- **Current phase**: 0 (Survey)
-- **Current focus**: Wave 0 Survey & Codebase Assessment
+  1. Survey & Architecture Assessment [done]
+  2. Foundation & Contracts M1 (Types, Seed Data, Storage, Tokens) [in-progress]
+  3. E2E Testing Track (Requirement-Driven Tiers 1-4) [in-progress]
+  4. Core Workspaces M2 (Command Center, Assignments Library, Workbench) [pending]
+  5. Research Lab, Timeline & Vault M3 (Analytics Lab, Timeline, Evidence Vault) [pending]
+  6. Presentation, Showcase & Settings M4 (Showcase, Presentation, Settings) [pending]
+  7. Verification, Cross-Cutting Reviews & Final Integration M5 (Tiers 1-4, Audit) [pending]
+- **Current phase**: 1 & E2E Track
+- **Current focus**: Milestone M1 (Foundation & Build Pipeline) & Parallel E2E Testing Track
 
 ## 🔒 Key Constraints
 - NEVER write, modify, or create source code files directly.
@@ -51,19 +51,22 @@ Build RECLAIM MAGNUM — complete, original, premium E-Waste Intelligence & Mana
 
 ## Key Decisions Made
 - Use Project Pattern with waves matching AGENTS.md 20-specialist allocation.
-- Top-level Project Orchestrator conducts initial survey via 3 parallel Explorers.
+- Dispatched Wave 0 Survey (3 Explorers) -> complete with unanimous consensus and detailed diagnostic patches.
+- Dispatched Milestone M1 Worker for foundation/build unblocking and E2E Test Writer in parallel for requirement-driven test suite.
 
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
 |-------|------|-----------|--------|---------|
-| survey_explorer_1 | teamwork_preview_explorer | Codebase & Infrastructure Survey | in-progress | 0a1fe540-13b7-4f75-9e2c-0f23d9d6ec67 |
-| survey_explorer_2 | teamwork_preview_explorer | Data Model & Dual-Truth Seed Survey | in-progress | 05f24b04-11b2-428d-82e3-6499e0d1c7da |
-| survey_explorer_3 | teamwork_preview_explorer | Design System & Routes Survey | in-progress | 5cffcb02-4295-448d-98bd-21b464865ff9 |
+| survey_explorer_1 | teamwork_preview_explorer | Codebase & Infrastructure Survey | completed | 0a1fe540-13b7-4f75-9e2c-0f23d9d6ec67 |
+| survey_explorer_2 | teamwork_preview_explorer | Data Model & Dual-Truth Seed Survey | completed | 05f24b04-11b2-428d-82e3-6499e0d1c7da |
+| survey_explorer_3 | teamwork_preview_explorer | Design System & Routes Survey | completed | 5cffcb02-4295-448d-98bd-21b464865ff9 |
+| worker_m1 | teamwork_preview_worker | Milestone M1: Foundation & Build Pipeline | in-progress | eb825a47-376e-49a7-bb40-e73134d676e7 |
+| e2e_test_writer | teamwork_preview_test_writer | E2E Testing Track: Tiers 1-4 Test Suite | in-progress | 6bc941a7-93bd-48e7-b708-4a110b977ea7 |
 
 ## Succession Status
 - Succession required: no
-- Spawn count: 3 / 16
-- Pending subagents: 0a1fe540-13b7-4f75-9e2c-0f23d9d6ec67, 05f24b04-11b2-428d-82e3-6499e0d1c7da, 5cffcb02-4295-448d-98bd-21b464865ff9
+- Spawn count: 5 / 16
+- Pending subagents: eb825a47-376e-49a7-bb40-e73134d676e7, 6bc941a7-93bd-48e7-b708-4a110b977ea7
 - Predecessor: none
 - Successor: not yet spawned
 
@@ -75,6 +78,9 @@ Build RECLAIM MAGNUM — complete, original, premium E-Waste Intelligence & Mana
 - /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/ORIGINAL_REQUEST.md — Original User Request
 - /home/anonymous/EWEM-dashboard/RECLAIM/AGENTS.md — Repository Contract
 - /home/anonymous/EWEM-dashboard/RECLAIM/DESIGN.md — Visual and UX Specifications
+- /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/orchestrator/PROJECT.md — Global Project Plan & Architecture
 - /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/orchestrator/DISPATCH.md — Incoming Dispatch Record
 - /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/orchestrator/progress.md — Execution Progress & Heartbeat
-- /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/orchestrator/PROJECT.md — Global Project Plan & Architecture
+- /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/survey_explorer_1/analysis.md — Codebase Survey Report
+- /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/survey_explorer_2/analysis.md — Data Model Survey Report
+- /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/survey_explorer_3/analysis.md — Design System & Routes Survey Report

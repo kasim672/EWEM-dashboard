@@ -1,4 +1,4 @@
-# BRIEFING — 2026-10-12T19:46:00Z
+# BRIEFING — 2026-10-12T19:52:00Z
 
 ## Mission
 Investigate assignment data models, dual-truth status dimensions, seed validation, categorization, chronology, and storage requirements for the RECLAIM studio.
@@ -23,12 +23,27 @@ Investigate assignment data models, dual-truth status dimensions, seed validatio
 - Updated: not yet
 
 ## Investigation State
-- **Explored paths**: DISPATCH.md
-- **Key findings**: Task assigned to audit data/assignments.seed.json, dual-truth dimensions, status rules, categories, chronology, storage requirements
-- **Unexplored areas**: ORIGINAL_REQUEST.md, data/assignments.seed.json, AGENTS.md, references/PROJECT_BRIEF.md, .agents/skills/reclaim-data-integrity/SKILL.md
+- **Explored paths**:
+  - `data/assignments.seed.json` (all 14 records verified)
+  - `AGENTS.md` & `references/PROJECT_BRIEF.md` (authoritative registers)
+  - `.agents/skills/reclaim-data-integrity/SKILL.md` (integrity protocol)
+  - `src/types/domain.ts` (domain model contracts)
+  - `src/lib/storage/StorageContext.tsx` & `seedData.ts` (persistence implementation)
+  - `src/app/page.tsx`, `assignments/page.tsx`, `assignments/[id]/page.tsx`
+  - `src/app/timeline/page.tsx`, `showcase/page.tsx`, `presentation/page.tsx`, `settings/page.tsx`
+  - `tests/seedIntegrity.test.ts` (Vitest suite execution)
+- **Key findings**:
+  - Exactly 14 assignment records with sequential IDs `EW-01`..`EW-14` and verbatim raw titles.
+  - 4 dimensions of truth strictly verified: 13 portal badges observed (false on EW-01), 0 verified complete baseline, all 14 unverified and not reviewed.
+  - 4/3/4/2/1 category distribution strictly verified.
+  - July 28 collision (EW-02 & EW-03) requires secondary ID tie-breaker in `assignments/page.tsx`.
+  - Incomplete `analyticsMetrics` restoration and missing enum validation in `StorageContext.tsx:importBackup`.
+  - `npm test` passes 5/5; `npm run typecheck` has 3 minor TypeScript errors.
+- **Unexplored areas**: None within scope of Data Model & Dual-Truth Seed survey.
 
 ## Key Decisions Made
-- Established explorer briefing and initialized workspace
+- Conducted full empirical audit across data seed, type contracts, storage provider, and route components.
+- Produced comprehensive `analysis.md` and 5-component `handoff.md`.
 
 ## Artifact Index
 - /home/anonymous/EWEM-dashboard/RECLAIM/.agents/teamwork/survey_explorer_2/DISPATCH.md — Task instructions and dispatch log
