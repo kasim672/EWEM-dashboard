@@ -203,8 +203,12 @@ export default function AssignmentLibraryPage() {
               className="w-full px-3 py-2.5 text-xs rounded-xl bg-surface/80 border border-border/80 text-text focus:outline-none focus:border-emerald-accent transition-colors font-mono cursor-pointer"
             >
               <option value="all">All Deliverables</option>
-              <option value="has_files">With Available Files (12)</option>
-              <option value="no_files">Awaiting Files (2)</option>
+              <option value="has_files">
+                With Available Files ({assignments.filter((a) => a.files && a.files.length > 0).length})
+              </option>
+              <option value="no_files">
+                Awaiting Files ({assignments.filter((a) => !a.files || a.files.length === 0).length})
+              </option>
             </select>
           </div>
 

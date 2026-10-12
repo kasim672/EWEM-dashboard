@@ -57,13 +57,14 @@ test.describe('RECLAIM Minimal Academic Portfolio E2E Verification', () => {
     await expect(page.locator('text=Generation Inventory')).toBeVisible();
   });
 
-  test('Awaiting assignments EW-01 and EW-09 display courteous files not available message', async ({ page }) => {
+  test('Awaiting assignment EW-01 displays courteous files not available message, and EW-09 displays KASIM_EWEM_ASS3_CHANGES.pdf', async ({ page }) => {
     await page.goto('http://localhost:3000/assignments/EW-01');
     await expect(page.locator('text=Files Not Available Yet')).toBeVisible();
     await expect(page.locator('text=No coursework deliverables are currently registered')).toBeVisible();
 
     await page.goto('http://localhost:3000/assignments/EW-09');
-    await expect(page.locator('text=Files Not Available Yet')).toBeVisible();
+    await expect(page.locator('text=KASIM_EWEM_ASS3_CHANGES.pdf').first()).toBeVisible();
+    await expect(page.locator('text=Download All (ZIP)')).toBeVisible();
   });
 
   test('Course Timeline preserves 14 sequential entries linking to assignment viewers', async ({ page }) => {

@@ -2,7 +2,7 @@
   "version": 1,
   "scannedAt": "2026-10-12T20:21:15.969Z",
   "sourceDirectory": "ewem",
-  "totalFiles": 19,
+  "totalFiles": 20,
   "assignmentsRepresented": [
     "EW-02",
     "EW-03",
@@ -11,6 +11,7 @@
     "EW-06",
     "EW-07",
     "EW-08",
+    "EW-09",
     "EW-10",
     "EW-11",
     "EW-12",
@@ -428,6 +429,26 @@
         "/api/coursework/preview/EW-08_c922ca76/slide-8.png"
       ],
       "uploadedAt": "2026-10-12T20:21:15.968Z",
+      "verifiedSafe": true,
+      "downloadCount": 0,
+      "published": true
+    },
+    {
+      "id": "EW-09_7783d0f1",
+      "filename": "KASIM_EWEM_ASS3_CHANGES.pdf",
+      "safeFilename": "EW-09_KASIM_EWEM_ASS3_CHANGES.pdf",
+      "ext": ".pdf",
+      "mimeType": "application/pdf",
+      "size": 341451,
+      "sha256": "7783d0f1742598d1f7b90272507c9ac7b08abada9d9875d3f097c3a1196642c9",
+      "assignmentId": "EW-09",
+      "parentFolder": "E Waste Recovery Process_Modification for Design Patent",
+      "publicUrl": "/api/coursework/file/EW-09_7783d0f1",
+      "publicPath": "public/coursework/files/EW-09_KASIM_EWEM_ASS3_CHANGES.pdf",
+      "previewType": "pdf",
+      "pdfPreviewUrl": null,
+      "slideImages": [],
+      "uploadedAt": "2026-10-12T21:59:33.912Z",
       "verifiedSafe": true,
       "downloadCount": 0,
       "published": true

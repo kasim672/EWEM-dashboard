@@ -115,7 +115,7 @@ export default function HomePage() {
                 {assignmentsWithFiles} <span className="text-lg font-normal text-text-muted">/ 14</span>
               </div>
               <p className="text-xs text-text-muted">
-                19 verified original student deliverables
+                20 verified original student deliverables
               </p>
             </div>
 
@@ -127,7 +127,7 @@ export default function HomePage() {
                 {assignmentsAwaitingFiles} <span className="text-lg font-normal text-text-muted">/ 14</span>
               </div>
               <p className="text-xs text-text-muted">
-                EW-01 & EW-09 marked awaiting source files
+                EW-01 marked awaiting source file
               </p>
             </div>
           </div>
