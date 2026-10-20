@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge, cn } from '@/components/ui/primitives';
+import { HexagonBadge } from '@/components/ui/HexagonBadge';
+import { VibrantStatBanner } from '@/components/ui/VibrantStatBanner';
 import { AssignmentCategory } from '@/types/domain';
 
 export default function AssignmentLibraryPage() {
@@ -25,6 +27,12 @@ export default function AssignmentLibraryPage() {
   const [availabilityFilter, setAvailabilityFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  // Exact metrics
+  const totalAssignments = assignments.length;
+  const assignmentsWithFiles = assignments.filter((a) => a.files && a.files.length > 0).length;
+  const assignmentsAwaitingFiles = totalAssignments - assignmentsWithFiles;
+  const totalFiles = assignments.reduce((sum, a) => sum + (a.files ? a.files.length : 0), 0);
 
   const categories: { label: string; value: string; count?: number }[] = useMemo(() => {
     const list: { label: string; value: string; count?: number }[] = [
@@ -141,12 +149,12 @@ export default function AssignmentLibraryPage() {
         </div>
 
         {/* View Switcher */}
-        <div className="flex items-center gap-2 self-start md:self-auto bg-surface-raised/80 p-1 rounded-lg border border-border/60">
+        <div className="flex items-center gap-1.5 self-start md:self-auto bg-surface-raised/80 p-1 rounded-full border border-border/60">
           <button
             onClick={() => setViewMode('grid')}
             aria-label="Grid view"
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all',
+              'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all',
               viewMode === 'grid'
                 ? 'bg-surface text-emerald-accent shadow-sm border border-border/50'
                 : 'text-text-muted hover:text-text'
@@ -159,7 +167,7 @@ export default function AssignmentLibraryPage() {
             onClick={() => setViewMode('table')}
             aria-label="Table view"
             className={cn(
-              'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all',
+              'flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all',
               viewMode === 'table'
                 ? 'bg-surface text-emerald-accent shadow-sm border border-border/50'
                 : 'text-text-muted hover:text-text'
@@ -170,6 +178,14 @@ export default function AssignmentLibraryPage() {
           </button>
         </div>
       </div>
+
+      {/* 3 Top Vibrant Metric Cards (Inspired by Image 1) */}
+      <VibrantStatBanner
+        totalAssignments={totalAssignments}
+        assignmentsWithFiles={assignmentsWithFiles}
+        assignmentsAwaitingFiles={assignmentsAwaitingFiles}
+        totalFiles={totalFiles}
+      />
 
       {/* Refined Minimalist Search & Filter Interface */}
       <div className="space-y-4">
@@ -216,7 +232,7 @@ export default function AssignmentLibraryPage() {
           {/* Sort Order Toggle */}
           <button
             onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-            className="shrink-0 flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-border/80 bg-surface/80 hover:bg-surface-raised text-xs font-mono text-text-muted hover:text-text transition-colors"
+            className="shrink-0 flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-border/80 bg-surface/80 hover:bg-surface-raised text-xs font-mono text-text-muted hover:text-text transition-colors"
             title="Toggle chronological order"
           >
             <ArrowUpDown className="w-3.5 h-3.5 text-cyan-accent" />
@@ -234,7 +250,7 @@ export default function AssignmentLibraryPage() {
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
                 className={cn(
-                  'px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all border',
+                  'px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border',
                   isSelected
                     ? 'bg-emerald-accent/10 border-emerald-accent/40 text-emerald-accent font-semibold shadow-sm'
                     : 'bg-surface/50 border-border/60 text-text-muted hover:text-text hover:bg-surface-raised/60 hover:border-border'
@@ -330,7 +346,7 @@ export default function AssignmentLibraryPage() {
                 )}
               >
                 <div className="space-y-4">
-                  {/* Top Header: ID + Portal Date + Portal Observation */}
+                  {/* Top Header: ID + Portal Date + Progress Pill (Inspired by Image 1) */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded-md bg-emerald-accent/10 border border-emerald-accent/20">
@@ -344,26 +360,37 @@ export default function AssignmentLibraryPage() {
                       )}
                     </div>
 
-                    <span className="text-xs font-mono text-text-muted flex items-center gap-1.5 shrink-0">
-                      <Calendar className="w-3.5 h-3.5 text-cyan-accent" />
-                      <span>{assignment.portalActivityDate}</span>
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-raised border border-border">
+                        <div className="w-8 h-1 bg-border rounded-full overflow-hidden">
+                          <div className="h-full bg-emerald-accent w-full rounded-full" />
+                        </div>
+                        <span className="text-[11px] font-mono text-emerald-accent font-semibold">100%</span>
+                      </div>
+                      <span className="text-xs font-mono text-text-muted flex items-center gap-1.5 shrink-0">
+                        <Calendar className="w-3.5 h-3.5 text-cyan-accent" />
+                        <span>{assignment.portalActivityDate}</span>
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Title & Portal Raw String */}
-                  <div className="space-y-1.5">
-                    <Link
-                      href={`/assignments/${assignment.id}`}
-                      className="block group-hover:text-emerald-accent transition-colors"
-                    >
-                      <h3 className="font-display text-xl sm:text-2xl font-normal tracking-tight text-text leading-snug group-hover:text-emerald-accent transition-colors">
-                        {assignment.displayTitle}
-                      </h3>
-                    </Link>
-                    <p className="text-xs font-mono text-text-muted/70 tracking-wide line-clamp-1">
-                      <span className="text-text-muted/60 uppercase text-[11px] mr-1.5 font-medium">Portal:</span>
-                      {assignment.portalTitle}
-                    </p>
+                  {/* Title with Hexagonal Category Emblem & Portal String */}
+                  <div className="flex items-start gap-3.5">
+                    <HexagonBadge category={assignment.category} id={assignment.id} className="w-10 h-10 shrink-0 mt-1" />
+                    <div className="space-y-1.5 min-w-0 flex-1">
+                      <Link
+                        href={`/assignments/${assignment.id}`}
+                        className="block group-hover:text-emerald-accent transition-colors"
+                      >
+                        <h3 className="font-display text-xl sm:text-2xl font-normal tracking-tight text-text leading-snug group-hover:text-emerald-accent transition-colors">
+                          {assignment.displayTitle}
+                        </h3>
+                      </Link>
+                      <p className="text-xs font-mono text-text-muted/70 tracking-wide line-clamp-1">
+                        <span className="text-text-muted/60 uppercase text-[11px] mr-1.5 font-medium">Portal:</span>
+                        {assignment.portalTitle}
+                      </p>
+                    </div>
                   </div>
 
                   {/* Category & Format Tags */}
