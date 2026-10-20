@@ -162,4 +162,13 @@ test.describe('RECLAIM Minimal Academic Portfolio E2E Verification', () => {
     expect(joinedNav).toContain('Assignments');
     expect(joinedNav).toContain('Timeline');
   });
+
+  test('About Page renders student author Kasim Ghanchi, roll number 24102C0015, and Vidyalankar Institute', async ({ page }) => {
+    await page.goto('http://localhost:3000/about');
+    await expect(page.locator('text=Kasim Ishaque Ghanchi').first()).toBeVisible();
+    await expect(page.locator('text=24102C0015').first()).toBeVisible();
+    await expect(page.locator('text=Vidyalankar Institute of Technology').first()).toBeVisible();
+    await expect(page.locator('text=Computer Engineering (CMPN)').first()).toBeVisible();
+    await expect(page.locator('text=Division C (CMPN-C)').first()).toBeVisible();
+  });
 });
