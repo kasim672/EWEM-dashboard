@@ -146,21 +146,21 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
           error: 'Invalid backup file format: missing required assignment array.',
         };
       }
-      if (data.assignments.length !== 14) {
+      if (data.assignments.length !== 14 && data.assignments.length !== 15) {
         return {
           success: false,
-          message: `Backup integrity check failed: expected exactly 14 assignments, found ${data.assignments.length}.`,
-          error: `Backup integrity check failed: expected exactly 14 assignments, found ${data.assignments.length}.`,
+          message: `Backup integrity check failed: expected 14 or 15 assignments, found ${data.assignments.length}.`,
+          error: `Backup integrity check failed: expected 14 or 15 assignments, found ${data.assignments.length}.`,
         };
       }
-      const expectedIds = Array.from({ length: 14 }, (_, i) => `EW-${String(i + 1).padStart(2, '0')}`);
+      const expectedIds = Array.from({ length: data.assignments.length }, (_, i) => `EW-${String(i + 1).padStart(2, '0')}`);
       const assignmentIds = new Set(data.assignments.map((a) => a.id));
       const hasAllExpectedIds = expectedIds.every((id) => assignmentIds.has(id));
       if (!hasAllExpectedIds) {
         return {
           success: false,
-          message: 'Backup integrity check failed: assignments must contain exactly IDs EW-01 through EW-14.',
-          error: 'Backup integrity check failed: assignments must contain exactly IDs EW-01 through EW-14.',
+          message: `Backup integrity check failed: assignments must contain sequential IDs EW-01 through EW-${String(data.assignments.length).padStart(2, '0')}.`,
+          error: `Backup integrity check failed: assignments must contain sequential IDs EW-01 through EW-${String(data.assignments.length).padStart(2, '0')}.`,
         };
       }
       setAssignments(data.assignments);
@@ -173,7 +173,7 @@ export function StorageProvider({ children }: { children: React.ReactNode }) {
         setAnalytics(data.analyticsMetrics);
         localStorage.setItem(STORAGE_KEYS.ANALYTICS, JSON.stringify(data.analyticsMetrics));
       }
-      return { success: true, message: 'Backup imported successfully with all 14 assignments restored.' };
+      return { success: true, message: `Backup imported successfully with all ${data.assignments.length} assignments restored.` };
     } catch (e: any) {
       return {
         success: false,
