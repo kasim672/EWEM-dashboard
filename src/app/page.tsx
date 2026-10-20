@@ -76,7 +76,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <p className="text-base text-text-muted leading-relaxed font-sans max-w-2xl">
+          <p className="text-base text-text-muted leading-relaxed font-sans max-w-[65ch] text-pretty">
             A viewer-only academic repository curating coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
           </p>
 
@@ -105,7 +105,7 @@ export default function HomePage() {
               <span className="text-xs font-mono uppercase tracking-tech text-text-muted">
                 Curriculum Ledger
               </span>
-              <span className="text-[10px] font-mono text-emerald-accent px-1.5 py-0.5 rounded bg-emerald-accent/10 border border-emerald-accent/20">
+              <span className="text-[11px] font-mono text-emerald-accent px-2 py-0.5 rounded bg-emerald-accent/10 border border-emerald-accent/20">
                 VERIFIED
               </span>
             </div>
@@ -156,9 +156,6 @@ export default function HomePage() {
       <div className="space-y-6 pt-4 border-t border-border/80">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1">
-            <div className="text-xs font-mono uppercase tracking-tech text-emerald-accent">
-              Selected Studies
-            </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-text font-display tracking-tight">
               Featured Academic Coursework
             </h2>
@@ -196,7 +193,7 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <p className="text-sm text-text-muted leading-relaxed font-sans">
+                <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[70ch]">
                   Comprehensive multi-sheet state-level electronic waste generation tracker and district collection scorecard containing real CPCB inventory data, authorized recyclers, and river basin environmental monitoring.
                 </p>
 
@@ -271,9 +268,6 @@ export default function HomePage() {
       <div className="space-y-6 pt-4 border-t border-border/80">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1">
-            <div className="text-xs font-mono uppercase tracking-tech text-emerald-accent">
-              Academic Publication Protocol
-            </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-text font-display tracking-tight">
               Featured Research Paper
             </h2>
@@ -303,8 +297,8 @@ export default function HomePage() {
               </p>
             </div>
 
-            <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[85ch]">
-              High accuracy on a random test split does not establish that a phishing URL classifier will remain reliable on new domains or data collected through different pipelines. Nor does a plausible feature-attribution plot establish that its explanation is faithful to the classifier. This protocol specifies matched lexical inputs, domain-disjoint and cross-corpus evaluation, SHAP and LIME explanation audits, and selective failure warning rules.
+            <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[65ch] text-pretty">
+              High accuracy on a random test split does not establish that a phishing URL classifier will remain reliable on new domains or data collected through different pipelines. Nor does a plausible feature-attribution plot establish that its explanation is faithful to the classifier. This protocol specifies matched lexical inputs, domain-disjoint and cross-corpus evaluation, SHAP and LIME explanation audits, and selective failure warning&nbsp;rules.
             </p>
 
             <div className="flex items-center gap-2 flex-wrap pt-2">

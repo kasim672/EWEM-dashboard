@@ -58,8 +58,8 @@ export default function CourseTimelinePage() {
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tightest text-text font-display">
             Course Activity Chronology
           </h1>
-          <p className="text-base text-text-muted max-w-2xl font-light">
-            Sequential index of 15 coursework activity and research milestone records. Grouped by calendar milestone.
+          <p className="text-base text-text-muted max-w-2xl font-light text-pretty">
+            Sequential index of 15 coursework activity and research milestone records grouped by calendar date.
           </p>
         </div>
       </div>

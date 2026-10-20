@@ -84,10 +84,10 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
             )}
           </span>
           <div className="truncate">
-            <h4 className="text-xs md:text-sm font-semibold text-text truncate tracking-tight" title={file.name}>
+            <h3 className="text-xs md:text-sm font-semibold text-text truncate tracking-tight" title={file.name}>
               {file.name}
-            </h4>
-            <div className="flex items-center gap-2 text-[10px] font-mono text-text-muted mt-0.5">
+            </h3>
+            <div className="flex items-center gap-2 text-xs font-mono text-text-muted mt-0.5">
               <span>{(file.size / 1024).toFixed(1)} KB</span>
               <span>&bull;</span>
               <span className="uppercase text-text-muted/80">{file.previewType}</span>
@@ -117,7 +117,7 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
               >
                 <ZoomOut className="w-3.5 h-3.5" />
               </button>
-              <span className="text-[10px] font-mono px-2 text-text-muted min-w-[3rem] text-center select-none">
+              <span className="text-[11px] font-mono px-2 text-text-muted min-w-[3rem] text-center select-none">
                 {Math.round(zoomLevel * 100)}%
               </span>
               <button
@@ -286,7 +286,7 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
                 <div className="w-12 h-12 rounded-xl bg-amber-accent/10 border border-amber-accent/20 flex items-center justify-center mx-auto text-amber-accent">
                   <Presentation className="w-6 h-6" />
                 </div>
-                <h4 className="text-sm font-semibold text-text">{file.name}</h4>
+                <h3 className="text-sm font-semibold text-text">{file.name}</h3>
                 <p className="text-xs text-text-muted max-w-sm mx-auto">
                   PowerPoint deliverable ready for inspection. Download original presentation file or view in local deck viewer.
                 </p>
@@ -316,7 +316,7 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
                   <FileText className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-text">{file.name}</h4>
+                  <h3 className="text-sm font-semibold text-text">{file.name}</h3>
                   <p className="text-xs text-text-muted max-w-sm mx-auto mt-1">
                     Word document deliverable indexed with SHA-256 integrity verification. Download original document to review formatted text, references, and appendices.
                   </p>
@@ -396,7 +396,7 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
             <div className="w-12 h-12 rounded-xl bg-amber-accent/10 border border-amber-accent/20 flex items-center justify-center mx-auto text-amber-accent">
               <AlertCircle className="w-6 h-6" />
             </div>
-            <h4 className="text-sm font-semibold text-text">{file.name}</h4>
+            <h3 className="text-sm font-semibold text-text">{file.name}</h3>
             <p className="text-xs text-text-muted max-w-sm mx-auto">
               This deliverable is archived for verified submission. Direct in-browser parsing is not supported for this filetype.
             </p>
@@ -411,7 +411,7 @@ export function UniversalFileViewer({ file, onClose }: UniversalFileViewerProps)
       </div>
 
       {/* Technical Footer Provenance Bar */}
-      <div className="px-4 py-2.5 bg-surface-raised border-t border-border flex flex-wrap items-center justify-between text-[11px] font-mono text-text-muted">
+      <div className="px-4 py-2.5 bg-surface-raised border-t border-border flex flex-wrap items-center justify-between text-xs font-mono text-text-muted">
         <span>
           Assignment Link:{' '}
           <strong className="text-emerald-accent font-semibold">{file.assignmentId}</strong>
@@ -509,7 +509,7 @@ function SpreadsheetInteractiveViewer({
         <div className="w-12 h-12 rounded-xl bg-cyan-accent/10 border border-cyan-accent/20 flex items-center justify-center mx-auto text-cyan-accent">
           <FileSpreadsheet className="w-6 h-6" />
         </div>
-        <h4 className="text-sm font-semibold text-text">{file.name}</h4>
+        <h3 className="text-sm font-semibold text-text">{file.name}</h3>
         <p className="text-xs text-text-muted max-w-sm mx-auto">
           Multi-sheet Excel workbook. Download original spreadsheet to inspect in Microsoft Excel or LibreOffice Calc.
         </p>
@@ -545,7 +545,7 @@ function SpreadsheetInteractiveViewer({
                 }`}
                 title={`Sheet: ${sheet}`}
               >
-                <span className="text-[10px] text-text-muted font-mono">
+                <span className="text-[11px] text-text-muted font-mono">
                   {String(idx + 1).padStart(2, '0')}
                 </span>
                 <span>{sheet}</span>
@@ -585,7 +585,7 @@ function SpreadsheetInteractiveViewer({
           <table className="w-full text-left border-collapse text-xs font-mono">
             <thead>
               <tr className="bg-surface-raised border-b border-border sticky top-0 z-10 text-text">
-                <th className="p-2 border-r border-border text-text-muted w-12 text-center text-[10px] uppercase select-none">
+                <th className="p-2 border-r border-border text-text-muted w-12 text-center text-[11px] uppercase select-none">
                   #
                 </th>
                 {currentSheetData.headers.map((h, idx) => (
@@ -604,7 +604,7 @@ function SpreadsheetInteractiveViewer({
                   key={rowIdx}
                   className="hover:bg-emerald-accent/[0.04] transition-colors even:bg-surface-raised/20"
                 >
-                  <td className="p-2 border-r border-border text-center text-[10px] text-text-muted bg-surface-raised/30 select-none">
+                  <td className="p-2 border-r border-border text-center text-[11px] text-text-muted bg-surface-raised/30 select-none">
                     {rowIdx + 1}
                   </td>
                   {currentSheetData.headers.map((_, colIdx) => {

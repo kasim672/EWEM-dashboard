@@ -109,7 +109,7 @@ export function ResearchPaperViewer() {
           >
             <FileText className="w-3.5 h-3.5 text-emerald-accent" />
             <span>PDF Document</span>
-            <span className="text-[10px] px-1 py-0.2 rounded bg-surface border border-border text-text-muted">
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
               Default
             </span>
           </button>
@@ -126,7 +126,7 @@ export function ResearchPaperViewer() {
           >
             <FileText className="w-3.5 h-3.5 text-text-muted" />
             <span>Microsoft Word</span>
-            <span className="text-[10px] px-1 py-0.2 rounded bg-surface border border-border text-text-muted">
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
               DOCX
             </span>
           </button>
@@ -143,7 +143,7 @@ export function ResearchPaperViewer() {
           >
             <FileCode className="w-3.5 h-3.5 text-amber-accent" />
             <span>LaTeX Source</span>
-            <span className="text-[10px] px-1 py-0.2 rounded bg-surface border border-border text-text-muted">
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted">
               .tex
             </span>
           </button>
@@ -160,7 +160,7 @@ export function ResearchPaperViewer() {
           >
             <ImageIcon className="w-3.5 h-3.5 text-cyan-accent" />
             <span>Research Figures</span>
-            <span className="text-[10px] px-1 py-0.2 rounded bg-surface border border-border text-text-muted font-bold">
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-surface border border-border text-text-muted font-bold">
               {figures.length}
             </span>
           </button>
@@ -356,7 +356,7 @@ export function ResearchPaperViewer() {
                 {texSearchQuery && (
                   <button
                     onClick={() => setTexSearchQuery('')}
-                    className="text-[10px] text-text-muted hover:text-text underline"
+                    className="text-[11px] text-text-muted hover:text-text underline font-mono"
                   >
                     Clear
                   </button>
@@ -483,7 +483,7 @@ export function ResearchPaperViewer() {
                   <span className="font-semibold text-text font-mono">Caption: </span>
                   {currentFigure.caption}
                 </p>
-                <div className="mt-1 flex items-center justify-center gap-3 text-[10px] font-mono text-text-muted">
+                <div className="mt-1 flex items-center justify-center gap-3 text-[11px] font-mono text-text-muted">
                   <span>File: {currentFigure.name}.png ({(currentFigure.pngSize / 1024).toFixed(1)} KB)</span>
                   {currentFigure.pdfPath && <span>Vector PDF available</span>}
                 </div>
@@ -514,8 +514,8 @@ export function ResearchPaperViewer() {
                     />
                   </div>
                   <div className="truncate">
-                    <p className="text-[11px] font-semibold text-text truncate">{fig.title}</p>
-                    <p className="text-[10px] font-mono text-text-muted truncate">{(fig.pngSize / 1024).toFixed(0)} KB</p>
+                    <div className="text-xs font-semibold text-text truncate">{fig.title}</div>
+                    <div className="text-xs font-mono text-text-muted truncate">{(fig.pngSize / 1024).toFixed(0)} KB</div>
                   </div>
                 </button>
               ))}

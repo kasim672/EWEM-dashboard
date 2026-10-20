@@ -144,7 +144,7 @@ export default function AssignmentDetailPage() {
             </div>
           ) : (
             <div className="flex items-start gap-2 pt-0.5">
-              <span className="text-[11px] font-mono text-text-muted uppercase tracking-wider shrink-0 mt-0.5">
+              <span className="text-xs font-mono text-text-muted uppercase tracking-wider shrink-0 mt-0.5">
                 Original Portal Title:
               </span>
               <span className="text-xs font-mono text-text-muted bg-surface-raised px-2.5 py-0.5 rounded border border-border/60 break-all">
@@ -172,7 +172,7 @@ export default function AssignmentDetailPage() {
               </div>
 
               <div className="space-y-1.5">
-                <div className="text-[11px] text-text-muted font-mono pb-1">
+                <div className="text-xs text-text-muted font-mono pb-1">
                   Select a deliverable to inspect:
                 </div>
 
@@ -207,7 +207,7 @@ export default function AssignmentDetailPage() {
                           >
                             {file.name}
                           </div>
-                          <div className="text-[10px] font-mono text-text-muted flex items-center gap-2 pt-0.5">
+                          <div className="text-[11px] font-mono text-text-muted flex items-center gap-2 pt-0.5">
                             <span>{(file.size / 1024).toFixed(1)} KB</span>
                             <span>•</span>
                             <span className="uppercase">{file.previewType}</span>

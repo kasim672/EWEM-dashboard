@@ -183,7 +183,7 @@ export default function AssignmentLibraryPage() {
               placeholder="Search assignments by title, ID, or keywords..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-9 py-2.5 text-sm rounded-xl bg-surface/80 border border-border/80 text-text placeholder-text-muted/70 focus:outline-none focus:border-emerald-accent focus:ring-1 focus:ring-emerald-accent/30 transition-all font-sans"
+              className="w-full pl-10 pr-9 py-2.5 text-sm rounded-xl bg-surface/80 border border-border/80 text-text placeholder:text-text-muted focus:outline-none focus:border-emerald-accent focus:ring-1 focus:ring-emerald-accent/30 transition-all font-sans"
             />
             {searchQuery && (
               <button
@@ -244,7 +244,7 @@ export default function AssignmentLibraryPage() {
                 {cat.count !== undefined && (
                   <span
                     className={cn(
-                      'ml-1.5 text-[10px] font-mono px-1.5 py-0.2 rounded-full',
+                      'ml-1.5 text-[11px] font-mono px-2 py-0.5 rounded-full',
                       isSelected
                         ? 'bg-emerald-accent/20 text-emerald-accent'
                         : 'bg-surface-raised text-text-muted'
@@ -311,7 +311,11 @@ export default function AssignmentLibraryPage() {
 
       {/* Asymmetric Editorial Bento Layout */}
       {viewMode === 'grid' && filteredAssignments.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
+        <section aria-labelledby="gallery-cards-heading">
+          <h2 id="gallery-cards-heading" className="sr-only">
+            Coursework Deliverables Catalog
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
           {filteredAssignments.map((assignment, index) => {
             const hasFiles = assignment.files && assignment.files.length > 0;
             const exts = getFileExtensions(assignment.files);
@@ -357,7 +361,7 @@ export default function AssignmentLibraryPage() {
                       </h3>
                     </Link>
                     <p className="text-xs font-mono text-text-muted/70 tracking-wide line-clamp-1">
-                      <span className="text-text-muted/40 uppercase text-[10px] mr-1.5">Portal:</span>
+                      <span className="text-text-muted/60 uppercase text-[11px] mr-1.5 font-medium">Portal:</span>
                       {assignment.portalTitle}
                     </p>
                   </div>
@@ -378,7 +382,7 @@ export default function AssignmentLibraryPage() {
                           {exts.map((ext) => (
                             <span
                               key={ext}
-                              className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface-raised border border-border/80 text-text-muted"
+                              className="text-[11px] font-mono px-2 py-0.5 rounded bg-surface-raised border border-border/80 text-text-muted"
                             >
                               {ext}
                             </span>
@@ -428,7 +432,8 @@ export default function AssignmentLibraryPage() {
               </div>
             );
           })}
-        </div>
+          </div>
+        </section>
       )}
 
       {/* Structured Archive Table Mode */}
@@ -483,7 +488,7 @@ export default function AssignmentLibraryPage() {
                             <span className="font-semibold">
                               {assignment.files.length} file{assignment.files.length !== 1 ? 's' : ''}
                             </span>
-                            <span className="text-[10px] text-text-muted">
+                            <span className="text-[11px] text-text-muted">
                               ({exts.join(', ')})
                             </span>
                           </div>

@@ -30,12 +30,12 @@
   --text-muted: #57635C;     /* Pencil graphite */
   --border: #D1D9D3;         /* Ruled ledger hairline */
   
-  /* Calibrated Light Accents */
-  --emerald: #0D7A55;
-  --lime: #50663B;
-  --cyan: #315954;
-  --amber: #A15509;
-  --danger: #B8281E;
+  /* Calibrated Light Accents - Enhanced WCAG AA Contrast (>= 4.5:1 on surface-raised #E6EAE7) */
+  --emerald: #0A6B4A;
+  --lime: #455932;
+  --cyan: #284C48;
+  --amber: #944D08;
+  --danger: #AB2319;
 }
 
 body {
