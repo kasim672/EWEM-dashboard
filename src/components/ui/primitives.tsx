@@ -153,7 +153,7 @@ export function Button({
   size?: 'sm' | 'md' | 'lg';
 }) {
   const base =
-    'inline-flex items-center justify-center font-medium rounded transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-accent active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none';
+    'inline-flex items-center justify-center font-medium rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-accent active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none shadow-xs';
   const variants = {
     default: 'bg-emerald-accent text-canvas font-semibold hover:bg-emerald-accent/90',
     outline: 'border border-border bg-surface text-text hover:bg-surface-raised hover:border-border-active',
@@ -161,9 +161,9 @@ export function Button({
     danger: 'bg-danger-accent text-canvas hover:opacity-90',
   };
   const sizes = {
-    sm: 'text-xs px-2.5 py-1.5 gap-1.5',
-    md: 'text-sm px-4 py-2 gap-2',
-    lg: 'text-base px-5 py-2.5 gap-2.5',
+    sm: 'text-xs px-3.5 py-1.5 gap-1.5',
+    md: 'text-sm px-5 py-2 gap-2',
+    lg: 'text-base px-6 py-2.5 gap-2.5',
   };
 
   return (
