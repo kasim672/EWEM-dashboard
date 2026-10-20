@@ -236,7 +236,7 @@ export default function AssignmentDetailPage() {
                 <a
                   href={`/api/download/${assignment.id}`}
                   download
-                  className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-lg bg-emerald-accent/10 hover:bg-emerald-accent/20 border border-emerald-accent/30 text-emerald-accent font-mono text-xs font-semibold transition-colors"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-emerald-accent/10 hover:bg-emerald-accent/20 border border-emerald-accent/30 text-emerald-accent font-mono text-xs font-semibold transition-colors shadow-xs"
                 >
                   <FileArchive className="w-4 h-4" />
                   <span>Download All (ZIP)</span>
@@ -276,7 +276,7 @@ export default function AssignmentDetailPage() {
                     download={activeFile.name}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-raised hover:bg-surface border border-border hover:border-emerald-accent/50 text-text transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-raised hover:bg-surface border border-border hover:border-emerald-accent/50 text-text transition-colors shadow-xs"
                   >
                     <Download className="w-3.5 h-3.5 text-emerald-accent" />
                     <span>Download File</span>
