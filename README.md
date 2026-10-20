@@ -197,7 +197,7 @@ RECLAIM/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/ewaste-portfolio.git
+git clone https://github.com/kasim672/ewaste-portfolio.git
 cd ewaste-portfolio
 ```
 
