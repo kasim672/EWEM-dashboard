@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import { useStorage } from '@/lib/storage/StorageContext';
 import { Card, Button, StatusBadge } from '@/components/ui/primitives';
+import { VibrantStatBanner } from '@/components/ui/VibrantStatBanner';
+import { HexagonBadge } from '@/components/ui/HexagonBadge';
 import researchPaperData from '@/data/researchPaperManifest.json';
 
 export default function HomePage() {
@@ -37,6 +39,7 @@ export default function HomePage() {
   const totalAssignments = assignments.length;
   const assignmentsWithFiles = assignments.filter((a) => a.files && a.files.length > 0).length;
   const assignmentsAwaitingFiles = totalAssignments - assignmentsWithFiles;
+  const totalFiles = assignments.reduce((sum, a) => sum + (a.files ? a.files.length : 0), 0);
 
   // Featured Coursework Deliverables
   const featuredAssignments = assignments.filter((a) =>
@@ -44,111 +47,69 @@ export default function HomePage() {
   );
 
   return (
-    <div className="space-y-16 animate-fadeIn pb-12">
-      {/* Asymmetric Editorial Hero Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Bold Typographic Statement & Purpose (8 cols) */}
-        <div className="lg:col-span-8 space-y-8 pr-0 lg:pr-6">
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded bg-surface border border-border text-xs font-mono text-emerald-accent uppercase tracking-tech">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
-            <span>EW/EM Academic Portfolio &bull; 2026 Archive</span>
-          </div>
+    <div className="space-y-12 animate-fadeIn pb-12">
+      {/* 3 Top Vibrant Metric Cards (Inspired by Image 1) */}
+      <VibrantStatBanner
+        totalAssignments={totalAssignments}
+        assignmentsWithFiles={assignmentsWithFiles}
+        assignmentsAwaitingFiles={assignmentsAwaitingFiles}
+        totalFiles={totalFiles}
+      />
 
-          <div className="space-y-4">
-            <h1 className="text-display-hero font-extrabold text-text font-display tracking-tightest">
-              E-Waste
-            </h1>
-            <p className="text-xl sm:text-2xl font-light text-text-muted tracking-tight max-w-2xl font-sans">
-              E-Waste &amp; Environmental Management Coursework
-            </p>
-          </div>
+      {/* Clean Editorial Academic Hero Section */}
+      <div className="max-w-4xl space-y-8 pr-0 lg:pr-6">
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1 rounded-full bg-surface border border-border text-xs font-mono text-emerald-accent uppercase tracking-tech">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-accent" />
+          <span>EW/EM Academic Portfolio &bull; 2026 Archive</span>
+        </div>
 
-          {/* Academic Dedication Banner */}
-          <div className="border border-border/80 bg-surface/80 rounded-xl p-4 sm:p-5 shadow-xs max-w-2xl flex items-start gap-3.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-accent mt-1.5 shrink-0" aria-hidden="true" />
-            <div className="space-y-1">
-              <div className="text-sm font-semibold text-text font-display tracking-tight">
-                Prepared for Prof. Aniket Kundu
-              </div>
-              <div className="text-xs font-mono text-text-muted">
-                E-Waste &amp; Environmental Management &middot; Semester 5
-              </div>
-            </div>
-          </div>
-
-          <p className="text-base text-text-muted leading-relaxed font-sans max-w-[65ch] text-pretty">
-            A viewer-only academic repository curating coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
+        <div className="space-y-4">
+          <h1 className="text-display-hero font-extrabold text-text font-display tracking-tightest">
+            E-Waste
+          </h1>
+          <p className="text-xl sm:text-2xl font-light text-text-muted tracking-tight max-w-2xl font-sans">
+            E-Waste &amp; Environmental Management Coursework
           </p>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link href="/assignments">
-              <Button size="lg" className="gap-2.5 px-6 font-semibold">
-                <FolderKanban className="w-4 h-4" />
-                <span>View Assignments ({totalAssignments})</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-
-            <Link href="/timeline">
-              <Button size="lg" variant="outline" className="gap-2.5 px-6 font-semibold">
-                <CalendarDays className="w-4 h-4 text-cyan-accent" />
-                <span>Explore Timeline</span>
-              </Button>
-            </Link>
+        {/* Academic Dedication Banner */}
+        <div className="border border-border/80 bg-surface/80 rounded-2xl p-4 sm:p-5 shadow-xs max-w-2xl flex items-start gap-3.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-accent mt-1.5 shrink-0" aria-hidden="true" />
+          <div className="space-y-1">
+            <div className="text-sm font-semibold text-text font-display tracking-tight">
+              Prepared for Prof. Aniket Kundu
+            </div>
+            <div className="text-xs font-mono text-text-muted">
+              E-Waste &amp; Environmental Management &middot; Semester 5
+            </div>
           </div>
         </div>
 
-        {/* Right Column: Physical Ledger Instrument Index (4 cols) */}
-        <div className="lg:col-span-4 space-y-4 pt-2">
-          <div className="border border-border bg-surface p-6 rounded-xl space-y-6 shadow-tactile">
-            <div className="border-b border-border pb-3 flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-tech text-text-muted">
-                Curriculum Ledger
-              </span>
-              <span className="text-[11px] font-mono text-emerald-accent px-2 py-0.5 rounded bg-emerald-accent/10 border border-emerald-accent/20">
-                VERIFIED
-              </span>
-            </div>
+        <p className="text-base text-text-muted leading-relaxed font-sans max-w-[65ch] text-pretty">
+          A viewer-only academic repository curating coursework deliverables across electronics circularity, elemental recovery, compliance analytics, and institutional audits. Every deliverable is preserved in its authentic student format with interactive document inspection and cryptographic hash fidelity.
+        </p>
 
-            {/* Metric 1 */}
-            <div className="space-y-1">
-              <div className="text-xs font-mono text-text-muted uppercase tracking-tech">
-                Coursework Curriculum
-              </div>
-              <div className="text-4xl font-extrabold font-mono text-text tabular-nums tracking-tight">
-                {totalAssignments}
-              </div>
-              <p className="text-xs text-text-muted">
-                Total coursework assignments registered
-              </p>
-            </div>
+        <div className="flex flex-wrap items-center gap-4 pt-2">
+          <Link href="/assignments">
+            <Button size="lg" className="gap-2.5 px-7 font-semibold">
+              <FolderKanban className="w-4 h-4" />
+              <span>View Assignments ({totalAssignments})</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
 
-            <div className="border-t border-border/60 pt-4 space-y-1">
-              <div className="text-xs font-mono text-text-muted uppercase tracking-tech">
-                Downloadable Deliverables
-              </div>
-              <div className="text-4xl font-extrabold font-mono text-emerald-accent tabular-nums tracking-tight">
-                {assignmentsWithFiles} <span className="text-lg font-normal text-text-muted">/ {totalAssignments}</span>
-              </div>
-              <p className="text-xs text-text-muted">
-                {assignments.reduce((sum, a) => sum + (a.files ? a.files.length : 0), 0)} verified deliverables across portfolio
-              </p>
-            </div>
+          <Link href="/timeline">
+            <Button size="lg" variant="outline" className="gap-2.5 px-7 font-semibold">
+              <CalendarDays className="w-4 h-4 text-cyan-accent" />
+              <span>Explore Timeline</span>
+            </Button>
+          </Link>
 
-            <div className="border-t border-border/60 pt-4 space-y-1">
-              <div className="text-xs font-mono text-text-muted uppercase tracking-tech">
-                Pending Coursework
-              </div>
-              <div className="text-4xl font-extrabold font-mono text-amber-accent tabular-nums tracking-tight">
-                {assignmentsAwaitingFiles} <span className="text-lg font-normal text-text-muted">/ {totalAssignments}</span>
-              </div>
-              <p className="text-xs text-text-muted">
-                {assignmentsAwaitingFiles === 0
-                  ? 'All 15 deliverables ingested and verified'
-                  : `${assignmentsAwaitingFiles} deliverable awaiting source file`}
-              </p>
-            </div>
-          </div>
+          <Link href="/about">
+            <Button size="lg" variant="outline" className="gap-2.5 px-7 font-semibold">
+              <span>About Researcher</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -173,24 +134,37 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Primary Lead Feature (col-span-7) */}
           {featuredAssignments[0] && (
-            <div className="lg:col-span-7 border border-border bg-surface p-7 rounded-xl flex flex-col justify-between space-y-6 shadow-tactile hover:border-emerald-accent/50 transition-colors">
+            <div className="lg:col-span-7 border border-border bg-surface p-7 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 shadow-tactile hover:border-emerald-accent/50 transition-all">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded bg-surface-raised border border-border">
-                    {featuredAssignments[0].id}
-                  </span>
-                  <span className="text-xs font-mono text-text-muted">
-                    {featuredAssignments[0].portalActivityDate}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded bg-surface-raised border border-border">
+                      {featuredAssignments[0].id}
+                    </span>
+                    <span className="text-xs font-mono text-text-muted">
+                      {featuredAssignments[0].portalActivityDate}
+                    </span>
+                  </div>
+
+                  {/* Progress Pill Inspired by Image 1 */}
+                  <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-raised border border-border">
+                    <div className="w-14 h-1.5 bg-border rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-accent w-full rounded-full" />
+                    </div>
+                    <span className="text-[11px] font-mono text-emerald-accent font-semibold">100% Ingested</span>
+                  </div>
                 </div>
 
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-text font-display leading-tight">
-                    {featuredAssignments[0].displayTitle}
-                  </h3>
-                  <p className="text-xs font-mono text-text-muted">
-                    {featuredAssignments[0].portalTitle}
-                  </p>
+                <div className="flex items-start gap-4">
+                  <HexagonBadge category={featuredAssignments[0].category} id={featuredAssignments[0].id} />
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <h3 className="text-xl sm:text-2xl font-bold text-text font-display leading-tight">
+                      {featuredAssignments[0].displayTitle}
+                    </h3>
+                    <p className="text-xs font-mono text-text-muted truncate">
+                      {featuredAssignments[0].portalTitle}
+                    </p>
+                  </div>
                 </div>
 
                 <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[70ch]">
@@ -221,25 +195,38 @@ export default function HomePage() {
             {featuredAssignments.slice(1).map((assignment) => (
               <div
                 key={assignment.id}
-                className="border border-border bg-surface p-6 rounded-xl flex flex-col justify-between space-y-4 shadow-tactile hover:border-emerald-accent/50 transition-colors flex-1"
+                className="border border-border bg-surface p-6 rounded-2xl flex flex-col justify-between space-y-4 shadow-tactile hover:border-emerald-accent/50 transition-all flex-1"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-emerald-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
-                      {assignment.id}
-                    </span>
-                    <span className="text-xs font-mono text-text-muted">
-                      {assignment.portalActivityDate}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono font-bold text-emerald-accent px-2 py-0.5 rounded bg-surface-raised border border-border">
+                        {assignment.id}
+                      </span>
+                      <span className="text-xs font-mono text-text-muted">
+                        {assignment.portalActivityDate}
+                      </span>
+                    </div>
+
+                    {/* Progress Pill */}
+                    <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-surface-raised border border-border">
+                      <div className="w-10 h-1.5 bg-border rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-accent w-full rounded-full" />
+                      </div>
+                      <span className="text-[11px] font-mono text-emerald-accent font-semibold">100%</span>
+                    </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-text font-display leading-snug">
-                      {assignment.displayTitle}
-                    </h3>
-                    <p className="text-xs font-mono text-text-muted line-clamp-1">
-                      {assignment.portalTitle}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <HexagonBadge category={assignment.category} id={assignment.id} className="w-10 h-10 shrink-0" />
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <h3 className="text-base sm:text-lg font-bold text-text font-display leading-snug">
+                        {assignment.displayTitle}
+                      </h3>
+                      <p className="text-xs font-mono text-text-muted line-clamp-1">
+                        {assignment.portalTitle}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
@@ -277,24 +264,37 @@ export default function HomePage() {
           </span>
         </div>
 
-        <div className="border border-border bg-surface p-7 sm:p-8 rounded-xl shadow-tactile hover:border-emerald-accent/50 transition-colors flex flex-col justify-between space-y-6">
+        <div className="border border-border bg-surface p-7 sm:p-8 rounded-2xl shadow-tactile hover:border-emerald-accent/50 transition-all flex flex-col justify-between space-y-6">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded bg-surface-raised border border-border">
-                IEEE TRANSACTIONS TEMPLATE
-              </span>
-              <span className="text-xs font-mono text-text-muted">
-                CYCRAI 2027 Research Protocol
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold text-emerald-accent px-2.5 py-1 rounded bg-surface-raised border border-border">
+                  IEEE TRANSACTIONS TEMPLATE
+                </span>
+                <span className="text-xs font-mono text-text-muted">
+                  CYCRAI 2027 Research Protocol
+                </span>
+              </div>
+
+              {/* Progress Pill Inspired by Image 1 */}
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-raised border border-border">
+                <div className="w-14 h-1.5 bg-border rounded-full overflow-hidden">
+                  <div className="h-full bg-emerald-accent w-full rounded-full" />
+                </div>
+                <span className="text-[11px] font-mono text-emerald-accent font-semibold">100% Verified</span>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl font-bold text-text font-display leading-tight">
-                {researchPaperData.title}
-              </h3>
-              <p className="text-xs font-mono text-text-muted">
-                {researchPaperData.author.name} &bull; {researchPaperData.author.department}, {researchPaperData.author.location}
-              </p>
+            <div className="flex items-start gap-4">
+              <HexagonBadge category="Academic Research" id="EW-15" />
+              <div className="space-y-1 min-w-0 flex-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-text font-display leading-tight">
+                  {researchPaperData.title}
+                </h3>
+                <p className="text-xs font-mono text-text-muted">
+                  {researchPaperData.author.name} &bull; {researchPaperData.author.department}, {researchPaperData.author.location}
+                </p>
+              </div>
             </div>
 
             <p className="text-sm text-text-muted leading-relaxed font-sans max-w-[65ch] text-pretty">
