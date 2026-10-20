@@ -81,21 +81,15 @@ test.describe('RECLAIM Minimal Academic Portfolio E2E Verification', () => {
     await expect(page.locator('text=Coursework Deliverables & Interactive Preview')).toBeVisible();
     await expect(page.locator('text=Download All (ZIP)')).toBeVisible();
 
-    // Switch between files: XLSX and PDF
-    await expect(page.locator('button:has-text("State_EWaste_Tracker_Final 1.xlsx")')).toBeVisible();
+    // Verify deliverables: two authoritative PDFs
     await expect(page.locator('button:has-text("Kasim_Ghanchi_Assignment1E.pdf")')).toBeVisible();
+    await expect(page.locator('button:has-text("Kasim_Ghanchi_EWaste_Report.pdf")')).toBeVisible();
 
-    // Click on XLSX tab
-    await page.locator('button:has-text("State_EWaste_Tracker_Final 1.xlsx")').click();
+    // Click on EWaste Report tab
+    await page.locator('button:has-text("Kasim_Ghanchi_EWaste_Report.pdf")').click();
 
-    // Verify spreadsheet viewer rendered
-    await expect(page.locator('text=State E-Waste Management Scorecard')).toBeVisible();
-    await expect(page.locator('button:has-text("0_Scorecard")')).toBeVisible();
-    await expect(page.locator('button:has-text("1_Generation_Inventory")')).toBeVisible();
-
-    // Switch sheet tab
-    await page.locator('button:has-text("1_Generation_Inventory")').click();
-    await expect(page.locator('text=Generation Inventory')).toBeVisible();
+    // Verify document preview iframe rendered
+    await expect(page.locator('iframe[title="Kasim_Ghanchi_EWaste_Report.pdf"]')).toBeVisible();
   });
 
   test('Assignment EW-01 displays Toxic_Chemicals.pdf viewer and EW-09 displays KASIM_EWEM_ASS3_CHANGES.pdf', async ({ page }) => {
